@@ -243,7 +243,7 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-neon-cyan/30 rounded-full bg-background/50 backdrop-blur-sm"
+className="inline-flex items-center gap-2 px-4 py-2 mt-16 mb-8 border border-neon-cyan/30 rounded-full bg-background/50 backdrop-blur-sm"
           >
             <Calendar className="w-4 h-4 text-neon-cyan" />
             <span className="font-mono text-sm text-foreground/80">

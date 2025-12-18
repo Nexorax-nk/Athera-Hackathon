@@ -33,7 +33,8 @@ const Header = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+       <div className="container mx-auto px-4 py-4 grid grid-cols-3 items-center">
+
           <a href="#home" className="flex items-center gap-2 group">
             <span className="font-orbitron font-bold text-lg md:text-xl text-glow-cyan text-primary group-hover:animate-pulse-glow transition-all">
               <GlitchText>HACKWITHMAGNUS</GlitchText>
@@ -41,7 +42,8 @@ const Header = () => {
           </a>
 
           {/* Desktop Nav with Glitch Effects */}
-          <nav className="hidden lg:flex items-center gap-8">
+       <nav className="hidden lg:flex items-center justify-center gap-10">
+
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -55,8 +57,8 @@ const Header = () => {
               </a>
             ))}
           </nav>
+<div className="flex items-center justify-end gap-4">
 
-          <div className="flex items-center gap-4">
             <motion.a
               href="#register"
               whileHover={{ scale: 1.05 }}
@@ -71,7 +73,7 @@ const Header = () => {
               className="lg:hidden p-2 text-primary hover:text-neon-magenta transition-colors"
             >
               <Menu size={28} />
-            </button>
+            </button> 
           </div>
         </div>
       </motion.header>
