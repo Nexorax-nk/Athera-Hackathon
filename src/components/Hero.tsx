@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Calendar, MapPin } from "lucide-react";
+import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
 import heroVideo from "@/assets/hero-bgm.mp4";
 
 const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
@@ -18,12 +18,10 @@ const CountdownUnit = ({ value, label }: { value: number; label: string }) => (
   </div>
 );
 
-// Animated title with letter-by-letter reveal and glitch
+// Animated title with letter-by-letter reveal
 const AnimatedTitle = () => {
   const titleParts = [
-    { text: "HACKS", className: "gradient-text-cyber" },
-    { text: "WITH", className: "text-foreground" },
-    { text: "MAGNUS", className: "gradient-text-sunset" },
+    { text: "HACKWITHMAGNUS", className: "gradient-text-cyber" },
   ];
 
   const containerVariants = {
@@ -68,7 +66,7 @@ const AnimatedTitle = () => {
 
   return (
     <motion.h1 
-      className="font-orbitron font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl mb-4 leading-tight"
+      className="font-orbitron font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -96,11 +94,19 @@ const AnimatedTitle = () => {
                   : "none" 
               }}
             >
-              {letter}
+              {letter === " " ? "\u00A0" : letter}
             </motion.span>
           ))}
         </motion.span>
       ))}
+      <motion.span 
+        className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
+      >
+        2026
+      </motion.span>
     </motion.h1>
   );
 };
@@ -129,18 +135,21 @@ const Hero = () => {
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   useEffect(() => {
-    const targetDate = new Date("2077-03-15T00:00:00").getTime();
+    // Count down to February 2, 2026
+    const targetDate = new Date("2026-02-02T00:00:00").getTime();
     
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
 
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000),
-      });
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000),
+        });
+      }
     };
 
     updateCountdown();
@@ -155,24 +164,24 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ perspective: "1000px" }}
     >
-      {/* 3D Parallax Hero background image */}
+      {/* 3D Parallax Hero background video */}
       <motion.div
-  className="absolute inset-0 overflow-hidden will-change-transform"
-  style={{
-    y: backgroundY,
-    scale: backgroundScale,
-    transformStyle: "preserve-3d",
-  }}
->
-  <video
-    className="absolute inset-0 w-full h-full object-cover"
-    src={heroVideo}
-    autoPlay
-    muted
-    loop
-    playsInline
-  />
-</motion.div>
+        className="absolute inset-0 overflow-hidden will-change-transform"
+        style={{
+          y: backgroundY,
+          scale: backgroundScale,
+          transformStyle: "preserve-3d",
+        }}
+      >
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src={heroVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      </motion.div>
 
       <motion.div 
         className="absolute inset-0 bg-background/70"
@@ -238,12 +247,12 @@ const Hero = () => {
           >
             <Calendar className="w-4 h-4 text-neon-cyan" />
             <span className="font-mono text-sm text-foreground/80">
-              MARCH 15-17, 2077
+              FEBRUARY 2, 2026
             </span>
             <span className="text-foreground/40">|</span>
             <MapPin className="w-4 h-4 text-neon-magenta" />
             <span className="font-mono text-sm text-foreground/80">
-              NIGHT CITY
+              CHENNAI INSTITUTE OF TECHNOLOGY
             </span>
           </motion.div>
 
@@ -251,22 +260,44 @@ const Hero = () => {
           <AnimatedTitle />
 
           <motion.p 
-            className="font-rajdhani text-xl md:text-2xl lg:text-3xl text-muted-foreground mb-2"
+            className="font-rajdhani text-xl md:text-2xl lg:text-3xl text-neon-cyan mb-2 font-semibold"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
           >
-            Night City's Premier Hackathon 2077
+            Ideate • Build • Innovate • Impact
           </motion.p>
 
           <motion.p 
-            className="font-mono text-sm md:text-base text-neon-cyan/80 mb-12 max-w-2xl mx-auto"
+            className="font-rajdhani text-sm md:text-base text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
           >
-            BUILD THE FUTURE IN THE DARK FUTURE | 48 HOURS OF INNOVATION
+            This hackathon is organized by the ATHERA Club of Chennai Institute of Technology 
+            as part of the annual symposium. The event is designed to encourage students to ideate, 
+            build, and present impactful technological solutions addressing real-world problems across multiple domains.
           </motion.p>
+
+          {/* Event Details Pills */}
+          <motion.div
+            className="flex flex-wrap justify-center gap-3 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5 }}
+          >
+            <div className="flex items-center gap-2 px-4 py-2 border border-neon-magenta/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <Clock className="w-4 h-4 text-neon-magenta" />
+              <span className="font-mono text-xs text-foreground/80">8 HOURS</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <Users className="w-4 h-4 text-neon-cyan" />
+              <span className="font-mono text-xs text-foreground/80">2-4 MEMBERS</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <span className="font-mono text-xs text-accent font-semibold">FREE REGISTRATION</span>
+            </div>
+          </motion.div>
 
           {/* Countdown */}
           <motion.div 

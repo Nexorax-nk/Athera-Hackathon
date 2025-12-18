@@ -1,46 +1,51 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CheckCircle, AlertTriangle } from "lucide-react";
 
 const faqs = [
   {
-    question: "Who can participate in the Innovation Sprint Hackathon?",
-    answer:
-      "The hackathon is open to all undergraduate and postgraduate students from any college. Participants must be currently enrolled in an academic institution. Students from all branches and disciplines are welcome.",
+    question: "Who can participate in ATHERA Innovation Sprint?",
+    answer: "The hackathon is open to all UG and PG students from any college. Teams must consist of 2 to 4 members. Registration is completely free!",
   },
   {
-    question: "What is the team size for the hackathon?",
-    answer:
-      "Each team must consist of 2 to 4 members. Solo participation is not allowed, as the event focuses on teamwork and collaborative problem-solving.",
+    question: "What domains can I build projects in?",
+    answer: "You can choose from 6 domains: Web3 & Blockchain, FinTech, EduTech, HealthTech, GreenTech & Sustainability, or Open Innovation for unique ideas that don't fit other categories.",
   },
   {
-    question: "Is there any registration fee?",
-    answer:
-      "No. The Innovation Sprint Hackathon is completely free of cost. There is no registration or participation fee for any round of the event.",
+    question: "What is the hackathon structure?",
+    answer: "The hackathon has 3 rounds: Round 1 is PPT submission where you present your idea. Round 2 is Prototype submission for shortlisted teams. Round 3 is the offline 8-hour final round at Chennai Institute of Technology on February 2, 2026.",
   },
   {
-    question: "What domains can we choose for our project?",
-    answer:
-      "Participants may choose one domain for their project submission: Web3 and Blockchain, FinTech, EduTech, HealthTech, GreenTech and Sustainability, or Open Innovation. Projects must clearly align with the selected domain.",
+    question: "What should I include in my PPT submission?",
+    answer: "Your presentation should cover: problem statement, proposed solution, key features, technology stack, expected impact, and feasibility of implementation.",
   },
   {
-    question: "How is the hackathon structured?",
-    answer:
-      "The hackathon consists of three rounds: Round 1 is PPT submission, Round 2 is prototype submission, and Round 3 is the offline final round conducted on February 2, 2026, at Chennai Institute of Technology with live demo and presentation.",
+    question: "Can I use any programming language or framework?",
+    answer: "Yes! Participants are free to use any programming languages, tools, or frameworks they prefer. Choose the tech stack that best suits your solution.",
   },
   {
-    question: "How will the projects be evaluated?",
-    answer:
-      "Projects will be evaluated based on innovation and originality, technical implementation, practicality and real-world impact, user experience and interface quality, and clarity of presentation.",
-  },
-  {
-    question: "What rules should participants follow?",
-    answer:
-      "All submissions must be original. Plagiarism will result in immediate disqualification. Teams must adhere to deadlines, maintain professional conduct, and accept the judges’ decisions as final.",
+    question: "How is judging done?",
+    answer: "Projects are evaluated on: Innovation and originality, Technical implementation, Practicality and real-world impact, User experience and interface quality, and Presentation clarity and problem-solving approach.",
   },
 ];
 
+const evaluationCriteria = [
+  "Innovation and originality",
+  "Technical implementation",
+  "Practicality and potential real-world impact",
+  "User experience and interface quality",
+  "Presentation clarity and problem-solving approach",
+];
+
+const rules = [
+  "All submitted work must be original.",
+  "Plagiarism or duplication will result in immediate disqualification.",
+  "Teams must adhere to all deadlines for each round.",
+  "Participants are free to use any programming languages, tools, or frameworks.",
+  "Professional and respectful conduct is expected throughout the event.",
+  "Judges' decisions will be final.",
+];
 
 const FAQItem = ({ question, answer, isOpen, onClick }: { 
   question: string; 
@@ -100,21 +105,90 @@ const FAQ = () => {
       <div className="absolute inset-0 bg-cyber-grid bg-grid-40 opacity-10" />
       
       <div className="container mx-auto px-4 relative z-10">
+        {/* Evaluation Criteria Section */}
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 50 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="max-w-3xl mx-auto mb-20"
+        >
+          <div className="text-center mb-8">
+            <span className="font-mono text-sm text-neon-magenta mb-4 block tracking-widest">
+              // JUDGING CRITERIA
+            </span>
+            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-sunset">
+              EVALUATION CRITERIA
+            </h2>
+          </div>
+
+          <div className="grid gap-3">
+            {evaluationCriteria.map((criteria, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="flex items-center gap-3 p-4 border border-neon-magenta/30 rounded-lg bg-card/30 backdrop-blur-sm"
+              >
+                <CheckCircle className="w-5 h-5 text-neon-magenta flex-shrink-0" />
+                <span className="font-rajdhani text-foreground">{criteria}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Rules Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="max-w-3xl mx-auto mb-20"
+        >
+          <div className="text-center mb-8">
+            <span className="font-mono text-sm text-accent mb-4 block tracking-widest">
+              // IMPORTANT
+            </span>
+            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-accent text-glow-yellow">
+              RULES & GUIDELINES
+            </h2>
+          </div>
+
+          <div className="p-6 border border-accent/30 rounded-lg bg-card/30 backdrop-blur-sm">
+            <ol className="space-y-4">
+              {rules.map((rule, index) => (
+                <motion.li
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                  className="flex items-start gap-4"
+                >
+                  <span className="font-orbitron font-bold text-accent text-lg min-w-[2rem]">
+                    {(index + 1).toString().padStart(2, "0")}
+                  </span>
+                  <span className="font-rajdhani text-foreground">{rule}</span>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </motion.div>
+
+        {/* FAQ Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-center mb-12"
         >
           <span className="font-mono text-sm text-neon-cyan mb-4 block tracking-widest">
             // GOT QUESTIONS?
           </span>
-          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-4 gradient-text-cyber">
-            FAQ
+          <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-cyber">
+            FREQUENTLY ASKED QUESTIONS
           </h2>
           <p className="font-rajdhani text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know before you jack in.
+            Everything you need to know about ATHERA Innovation Sprint.
           </p>
         </motion.div>
 
@@ -124,7 +198,7 @@ const FAQ = () => {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
+              transition={{ duration: 0.4, delay: 0.5 + index * 0.05 }}
             >
               <FAQItem
                 question={faq.question}

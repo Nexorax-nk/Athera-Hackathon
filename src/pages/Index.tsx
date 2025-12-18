@@ -4,7 +4,6 @@ import About from "@/components/About";
 import Tracks from "@/components/Tracks";
 import Schedule from "@/components/Schedule";
 import Prizes from "@/components/Prizes";
-import Sponsors from "@/components/Sponsors";
 import FAQ from "@/components/FAQ";
 import Register from "@/components/Register";
 import Footer from "@/components/Footer";
@@ -22,7 +21,6 @@ const Index = () => {
           <Tracks />
           <Schedule />
           <Prizes />
-          <Sponsors />
           <FAQ />
           <Register />
         </main>

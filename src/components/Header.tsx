@@ -6,10 +6,9 @@ import GlitchText from "./GlitchText";
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
-  { name: "Tracks", href: "#tracks" },
+  { name: "Domains", href: "#tracks" },
   { name: "Schedule", href: "#schedule" },
   { name: "Prizes", href: "#prizes" },
-  { name: "Sponsors", href: "#sponsors" },
   { name: "FAQ", href: "#faq" },
 ];
 
@@ -36,10 +35,8 @@ const Header = () => {
       >
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <a href="#home" className="flex items-center gap-2 group">
-            <span className="font-orbitron font-bold text-xl md:text-2xl text-glow-cyan text-primary group-hover:animate-pulse-glow transition-all">
-              <GlitchText>HACKS</GlitchText>
-              <span className="text-neon-magenta">WITH</span>
-              <GlitchText>MAGNUS</GlitchText>
+            <span className="font-orbitron font-bold text-lg md:text-xl text-glow-cyan text-primary group-hover:animate-pulse-glow transition-all">
+              <GlitchText>HACKWITHMAGNUS</GlitchText>
             </span>
           </a>
 
@@ -94,7 +91,7 @@ const Header = () => {
             
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
               <span className="font-orbitron font-bold text-xl text-primary text-glow-cyan">
-                HACKS<span className="text-neon-magenta">WITH</span>MAGNUS
+                HACKWITHMAGNUS
               </span>
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
