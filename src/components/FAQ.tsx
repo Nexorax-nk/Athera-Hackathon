@@ -5,38 +5,42 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    question: "Who can participate in HacksWithMagnus?",
-    answer: "Any choom with a valid ID and a passion for tech. Students, professionals, solos, corpos — everyone's welcome. You must be at least 18 to compete. Teams can have 1-4 members.",
+    question: "Who can participate in the Innovation Sprint Hackathon?",
+    answer:
+      "The hackathon is open to all undergraduate and postgraduate students from any college. Participants must be currently enrolled in an academic institution. Students from all branches and disciplines are welcome.",
   },
   {
-    question: "What can I build?",
-    answer: "Anything goes — web apps, mobile apps, hardware hacks, AI/ML projects, games, cyberware prototypes, security tools. If it runs code or uses tech, it counts. Pre-existing projects are not allowed; all work must be done during the 48-hour window.",
+    question: "What is the team size for the hackathon?",
+    answer:
+      "Each team must consist of 2 to 4 members. Solo participation is not allowed, as the event focuses on teamwork and collaborative problem-solving.",
   },
   {
-    question: "Do I need a team?",
-    answer: "Nope. You can go solo or form a team of up to 4. We'll have a team formation session on Day 1 if you're looking for chooms to work with.",
+    question: "Is there any registration fee?",
+    answer:
+      "No. The Innovation Sprint Hackathon is completely free of cost. There is no registration or participation fee for any round of the event.",
   },
   {
-    question: "What should I bring?",
-    answer: "Your laptop, chargers, toiletries, sleeping bag (if you want), and any hardware you're planning to hack on. We provide food, drinks, wifi, and power. Leave the weapons at home.",
+    question: "What domains can we choose for our project?",
+    answer:
+      "Participants may choose one domain for their project submission: Web3 and Blockchain, FinTech, EduTech, HealthTech, GreenTech and Sustainability, or Open Innovation. Projects must clearly align with the selected domain.",
   },
   {
-    question: "Is there a code of conduct?",
-    answer: "Yes. Respect other hackers, mentors, and sponsors. No harassment, discrimination, or gonk behavior. Violations will get you kicked out. Full details in the registration packet.",
+    question: "How is the hackathon structured?",
+    answer:
+      "The hackathon consists of three rounds: Round 1 is PPT submission, Round 2 is prototype submission, and Round 3 is the offline final round conducted on February 2, 2026, at Chennai Institute of Technology with live demo and presentation.",
   },
   {
-    question: "How is judging done?",
-    answer: "Projects are judged on innovation, technical complexity, polish, and impact. Each team presents a 3-minute demo to our panel of industry fixers and tech legends. Track winners are chosen first, then overall.",
+    question: "How will the projects be evaluated?",
+    answer:
+      "Projects will be evaluated based on innovation and originality, technical implementation, practicality and real-world impact, user experience and interface quality, and clarity of presentation.",
   },
   {
-    question: "Is the event in-person or virtual?",
-    answer: "In-person only. The venue is the Afterlife Club in Night City. No remote participation for the main event, but we'll livestream the demos and awards ceremony.",
-  },
-  {
-    question: "What's the refund policy?",
-    answer: "Registration is free, so no refunds needed. If you can't make it, please cancel your spot so another hacker can take it.",
+    question: "What rules should participants follow?",
+    answer:
+      "All submissions must be original. Plagiarism will result in immediate disqualification. Teams must adhere to deadlines, maintain professional conduct, and accept the judges’ decisions as final.",
   },
 ];
+
 
 const FAQItem = ({ question, answer, isOpen, onClick }: { 
   question: string; 
