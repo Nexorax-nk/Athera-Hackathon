@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Your logo file (ideally a transparent PNG)
-import logo from '../assets/bg.jpg';  // ← Replace with .png if you use the transparent version
+import logo from '../assets/bg.png';  // ← Replace with .png if you use the transparent version
 
 const LoadingDots = ({ progress }) => {
   const dots = 3;
@@ -138,17 +138,30 @@ const Loader = ({ onComplete }) => {
             >
               {/* Clean, centered logo with no background visible */}
               <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="mb-16 max-w-[85%] md:max-w-[65%]"
-              >
+  initial={{ scale: 0.85, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  transition={{ duration: 1.2, ease: "easeOut" }}
+  className="
+    flex items-center justify-center
+    w-full h-full
+    max-w-[90vw]
+    md:max-w-[70vw]
+    lg:max-w-[55vw]
+  "
+>
+
                 <img
-                  src={logo}
-                  alt="HackWithMagnus 2026 Ultimate Edition"
-                  className="w-full h-auto block mx-auto object-contain"
-                  style={{ filter: 'none' }}  // No glow or effects
-                />
+  src={logo}
+  alt="HackWithMagnus 2026"
+  className="
+    w-full
+    h-auto
+    object-contain
+    select-none
+    pointer-events-none
+  "
+/>
+
               </motion.div>
 
               {/* Status text */}
