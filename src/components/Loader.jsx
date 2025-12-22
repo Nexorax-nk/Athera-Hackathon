@@ -1,61 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const GlitchLetter = ({ char, index, phase }) => {
-  const [isGlitching, setIsGlitching] = useState(false);
-  const [glitchOffset, setGlitchOffset] = useState({ x: 0, r: 0, g: 0 });
-
-  useEffect(() => {
-    if (phase !== 'loading') return;
-    
-    const triggerGlitch = () => {
-      if (Math.random() > 0.7) {
-        setIsGlitching(true);
-        setGlitchOffset({
-          x: (Math.random() - 0.5) * 3,
-          r: (Math.random() - 0.5) * 2,
-          g: (Math.random() - 0.5) * 2,
-        });
-        setTimeout(() => setIsGlitching(false), 100 + Math.random() * 100);
-      }
-    };
-
-    const interval = setInterval(triggerGlitch, 800 + Math.random() * 1200);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  return (
-    <motion.span
-      initial={{ opacity: 0, y: 15, scale: 0.9 }}
-      animate={{ 
-        opacity: phase === 'transitioning' ? 0 : 1, 
-        y: 0, 
-        scale: 1,
-        x: isGlitching ? glitchOffset.x : 0,
-      }}
-      exit={{ 
-        opacity: 0,
-        filter: 'blur(8px)',
-        y: 10,
-      }}
-      transition={{ 
-        delay: index * 0.04,
-        duration: 0.35,
-        ease: [0.25, 0.46, 0.45, 0.94],
-        x: { duration: 0.08 }
-      }}
-      className="relative inline-block"
-      style={{ 
-        textShadow: isGlitching 
-          ? `${glitchOffset.r}px 0 hsl(var(--neon-cyan)), ${glitchOffset.g}px 0 hsl(var(--neon-magenta)), 0 0 15px hsl(var(--neon-cyan) / 0.7)`
-          : '0 0 15px hsl(var(--neon-cyan) / 0.5), 0 0 30px hsl(var(--neon-cyan) / 0.25)',
-        willChange: 'transform',
-      }}
-    >
-      {char === " " ? "\u00A0" : char}
-    </motion.span>
-  );
-};
+// Correct way: Import the image (adjust the path if needed)
+import logo from '../assets/load.jpeg';  // ← Make sure this path is correct relative to your file
 
 const LoadingDots = ({ progress }) => {
   const dots = 3;
@@ -87,10 +34,7 @@ const LoadingDots = ({ progress }) => {
 const Loader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [phase, setPhase] = useState('loading');
-
   const [statusText, setStatusText] = useState("INITIALIZING");
-
-  const title = "HACKSWITHMAGNUS 2077";
 
   useEffect(() => {
     const startTime = Date.now();
@@ -130,7 +74,7 @@ const Loader = ({ onComplete }) => {
       transition={{ duration: 0.6, ease: "easeInOut" }}
       className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Animated background grid */}
+      {/* Background effects (unchanged) */}
       <motion.div 
         className="absolute inset-0 pointer-events-none opacity-[0.08]"
         animate={phase === 'transitioning' ? { opacity: 0.15 } : { opacity: 0.08 }}
@@ -144,7 +88,6 @@ const Loader = ({ onComplete }) => {
         }}
       />
 
-      {/* Vignette overlay */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -152,7 +95,6 @@ const Loader = ({ onComplete }) => {
         }}
       />
       
-      {/* Scanlines */}
       <motion.div 
         className="absolute inset-0 pointer-events-none"
         animate={phase === 'transitioning' ? { opacity: 0.08 } : { opacity: 0.03 }}
@@ -163,13 +105,11 @@ const Loader = ({ onComplete }) => {
         }}
       />
 
-      {/* CRT glow */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{ boxShadow: 'inset 0 0 120px rgba(0, 255, 255, 0.04)' }}
       />
 
-      {/* Chromatic aberration overlay during transition */}
       <AnimatePresence>
         {phase === 'transitioning' && (
           <motion.div
@@ -179,9 +119,7 @@ const Loader = ({ onComplete }) => {
             transition={{ duration: 0.3 }}
             className="absolute inset-0 pointer-events-none mix-blend-screen"
             style={{
-              background: `
-                linear-gradient(90deg, rgba(255,0,100,0.03) 0%, transparent 20%, transparent 80%, rgba(0,255,255,0.03) 100%)
-              `,
+              background: `linear-gradient(90deg, rgba(255,0,100,0.03) 0%, transparent 20%, transparent 80%, rgba(0,255,255,0.03) 100%)`,
             }}
           />
         )}
@@ -194,25 +132,45 @@ const Loader = ({ onComplete }) => {
             <motion.div
               key="loading-content"
               initial={{ opacity: 1 }}
-              exit={{ 
-                opacity: 0,
-                filter: 'blur(12px)',
-                scale: 0.95,
-              }}
+              exit={{ opacity: 0, filter: 'blur(12px)', scale: 0.95 }}
               transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
               className="text-center"
             >
+              {/* Logo Image */}
               <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
+                initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="mb-8"
+                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="mb-12 max-w-[80%] md:max-w-[60%]"
               >
-                <h1 className="font-orbitron text-3xl sm:text-4xl md:text-6xl font-black tracking-wider text-neon-cyan">
-                  {title.split("").map((char, i) => (
-                    <GlitchLetter key={i} char={char} index={i} phase={phase} />
-                  ))}
-                </h1>
+                <div className="relative inline-block">
+                  <img
+                    src={logo}  // ← Now using the imported image
+                    alt="Logo"
+                    className="w-full h-auto drop-shadow-2xl"
+                    style={{
+                      filter: 'drop-shadow(0 0 20px hsl(var(--neon-cyan))) drop-shadow(0 0 40px hsl(var(--neon-cyan) / 0.5))',
+                    }}
+                  />
+                  {/* Subtle glitch effect during loading */}
+                  {phase === 'loading' && (
+                    <motion.div
+                      className="absolute inset-0 mix-blend-screen opacity-30 pointer-events-none"
+                      animate={{
+                        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      style={{
+                        background: 'linear-gradient(45deg, transparent 30%, hsl(var(--neon-magenta)) 50%, transparent 70%)',
+                        backgroundSize: '200% 200%',
+                      }}
+                    />
+                  )}
+                </div>
               </motion.div>
 
               <motion.p

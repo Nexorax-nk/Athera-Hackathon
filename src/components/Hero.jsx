@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
-import heroVideo from "@/assets/hero-bgm.mp4";
+import heroVideo from "@/assets/herobg.mp4";
 
 const CountdownUnit = ({ value, label }) => (
   <div className="flex flex-col items-center">
@@ -119,20 +119,29 @@ const Hero = () => {
     seconds: 0,
   });
 
+  // New state for pointer events
+  const [pointerEvents, setPointerEvents] = useState("auto");
+
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
-  // 3D Parallax transforms
+  // Adjusted: Fade out faster and less aggressively
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 0.3], ["0%", "15%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
   const orbLeftX = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
+  // Disable pointer events when content is mostly faded
+  useMotionValueEvent(contentOpacity, "change", (latest) => {
+    setPointerEvents(latest < 0.7 ? "none" : "auto");
+  });
 
   useEffect(() => {
     // Count down to February 2, 2026
@@ -149,6 +158,8 @@ const Hero = () => {
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       }
     };
 
@@ -228,10 +239,14 @@ const Hero = () => {
         className="absolute bottom-1/4 -right-32 w-64 h-64 rounded-full bg-neon-magenta/20 blur-[100px] will-change-transform"
       />
 
-      {/* Content with parallax */}
+      {/* Content with parallax + pointerEvents fix */}
       <motion.div 
         className="container mx-auto px-4 text-center relative z-10"
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={{ 
+          y: contentY, 
+          opacity: contentOpacity,
+          pointerEvents  // This allows clicks to pass through when faded
+        }}
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -344,6 +359,7 @@ const Hero = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          style={{ pointerEvents: "auto" }} // Always clickable
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
