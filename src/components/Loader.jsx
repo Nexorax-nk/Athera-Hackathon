@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Correct way: Import the image (adjust the path if needed)
-import logo from '../assets/load.jpeg';  // ← Make sure this path is correct relative to your file
+// Your logo file (ideally a transparent PNG)
+import logo from '../assets/bg.jpg';  // ← Replace with .png if you use the transparent version
 
 const LoadingDots = ({ progress }) => {
   const dots = 3;
@@ -74,7 +74,7 @@ const Loader = ({ onComplete }) => {
       transition={{ duration: 0.6, ease: "easeInOut" }}
       className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Background effects (unchanged) */}
+      {/* Background effects - unchanged */}
       <motion.div 
         className="absolute inset-0 pointer-events-none opacity-[0.08]"
         animate={phase === 'transitioning' ? { opacity: 0.15 } : { opacity: 0.08 }}
@@ -136,43 +136,22 @@ const Loader = ({ onComplete }) => {
               transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
               className="text-center"
             >
-              {/* Logo Image */}
+              {/* Clean, centered logo with no background visible */}
               <motion.div
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="mb-12 max-w-[80%] md:max-w-[60%]"
+                transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="mb-16 max-w-[85%] md:max-w-[65%]"
               >
-                <div className="relative inline-block">
-                  <img
-                    src={logo}  // ← Now using the imported image
-                    alt="Logo"
-                    className="w-full h-auto drop-shadow-2xl"
-                    style={{
-                      filter: 'drop-shadow(0 0 20px hsl(var(--neon-cyan))) drop-shadow(0 0 40px hsl(var(--neon-cyan) / 0.5))',
-                    }}
-                  />
-                  {/* Subtle glitch effect during loading */}
-                  {phase === 'loading' && (
-                    <motion.div
-                      className="absolute inset-0 mix-blend-screen opacity-30 pointer-events-none"
-                      animate={{
-                        backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      style={{
-                        background: 'linear-gradient(45deg, transparent 30%, hsl(var(--neon-magenta)) 50%, transparent 70%)',
-                        backgroundSize: '200% 200%',
-                      }}
-                    />
-                  )}
-                </div>
+                <img
+                  src={logo}
+                  alt="HackWithMagnus 2026 Ultimate Edition"
+                  className="w-full h-auto block mx-auto object-contain"
+                  style={{ filter: 'none' }}  // No glow or effects
+                />
               </motion.div>
 
+              {/* Status text */}
               <motion.p
                 className="font-mono text-sm md:text-base text-neon-cyan/80 tracking-[0.25em] mb-4"
                 exit={{ opacity: 0, y: 10 }}
@@ -181,6 +160,7 @@ const Loader = ({ onComplete }) => {
                 <LoadingDots progress={progress} />
               </motion.p>
 
+              {/* Progress percentage */}
               <motion.div
                 className="font-mono text-lg md:text-xl text-neon-cyan/60"
                 exit={{ opacity: 0 }}
@@ -192,7 +172,7 @@ const Loader = ({ onComplete }) => {
         </AnimatePresence>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress Bar - unchanged */}
       <AnimatePresence>
         {(phase === 'loading' || phase === 'transitioning') && (
           <motion.div

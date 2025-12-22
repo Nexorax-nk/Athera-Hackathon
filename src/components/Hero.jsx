@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValueEvent,
+} from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
 import heroVideo from "@/assets/herobg.mp4";
 
@@ -36,13 +41,13 @@ const AnimatedTitle = () => {
   };
 
   const letterVariants = {
-    hidden: { 
-      opacity: 0, 
+    hidden: {
+      opacity: 0,
       y: 20,
       rotateX: -90,
     },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       rotateX: 0,
       transition: {
@@ -65,7 +70,7 @@ const AnimatedTitle = () => {
   };
 
   return (
-    <motion.h1 
+    <motion.h1
       className="font-orbitron font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight"
       variants={containerVariants}
       initial="hidden"
@@ -88,10 +93,11 @@ const AnimatedTitle = () => {
               key={`${partIndex}-${letterIndex}`}
               variants={letterVariants}
               className="inline-block"
-              style={{ 
-                textShadow: partIndex === 0 || partIndex === 2 
-                  ? "0 0 20px currentColor" 
-                  : "none" 
+              style={{
+                textShadow:
+                  partIndex === 0 || partIndex === 2
+                    ? "0 0 20px currentColor"
+                    : "none",
               }}
             >
               {letter === " " ? "\u00A0" : letter}
@@ -99,7 +105,7 @@ const AnimatedTitle = () => {
           ))}
         </motion.span>
       ))}
-      <motion.span 
+      <motion.span
         className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,7 +125,6 @@ const Hero = () => {
     seconds: 0,
   });
 
-  // New state for pointer events
   const [pointerEvents, setPointerEvents] = useState("auto");
 
   const sectionRef = useRef(null);
@@ -128,25 +133,26 @@ const Hero = () => {
     offset: ["start start", "end start"],
   });
 
-  // Adjusted: Fade out faster and less aggressively
+  // Faster and cleaner parallax + fade
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const contentY = useTransform(scrollYProgress, [0, 0.3], ["0%", "15%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
+
+  // Content fades out quickly (by 20% scroll progress)
+  const contentY = useTransform(scrollYProgress, [0, 0.2], ["0%", "10%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   const orbLeftX = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-  // Disable pointer events when content is mostly faded
+  // Disable pointer events early during fade
   useMotionValueEvent(contentOpacity, "change", (latest) => {
-    setPointerEvents(latest < 0.7 ? "none" : "auto");
+    setPointerEvents(latest < 0.9 ? "none" : "auto");
   });
 
   useEffect(() => {
-    // Count down to February 2, 2026
     const targetDate = new Date("2026-02-02T00:00:00").getTime();
-    
+
     const updateCountdown = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
@@ -154,7 +160,9 @@ const Hero = () => {
       if (distance > 0) {
         setTimeLeft({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          hours: Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          ),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
@@ -175,9 +183,9 @@ const Hero = () => {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ perspective: "1000px" }}
     >
-      {/* 3D Parallax Hero background video */}
+      {/* Background video with parallax */}
       <motion.div
-        className="absolute inset-0 overflow-hidden will-change-transform"
+        className="absolute inset-0 overflow-hidden will-change-transform pointer-events-none"
         style={{
           y: backgroundY,
           scale: backgroundScale,
@@ -194,18 +202,21 @@ const Hero = () => {
         />
       </motion.div>
 
-      <motion.div 
-        className="absolute inset-0 bg-background/70"
+      {/* Dark overlay */}
+      <motion.div
+        className="absolute inset-0 bg-background/70 pointer-events-none"
         style={{ y: backgroundY }}
       />
-      
-      {/* Background grid with parallax */}
-      <motion.div 
-        className="absolute inset-0 bg-cyber-grid bg-grid-40 opacity-30 will-change-transform"
+
+      {/* Cyber grid */}
+      <motion.div
+        className="absolute inset-0 bg-cyber-grid bg-grid-40 opacity-30 will-change-transform pointer-events-none"
         style={{ y: gridY }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 via-transparent to-neon-magenta/5" />
-      
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-neon-cyan/5 via-transparent to-neon-magenta/5 pointer-events-none" />
+
       {/* Scan line effect */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
@@ -218,34 +229,34 @@ const Hero = () => {
           transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
         />
       </motion.div>
-      
-      {/* Animated orbs with 3D parallax */}
+
+      {/* Animated orbs */}
       <motion.div
         style={{ x: orbLeftX }}
-        animate={{ 
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
         transition={{ duration: 4, repeat: Infinity }}
-        className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-neon-cyan/20 blur-[100px] will-change-transform"
+        className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-neon-cyan/20 blur-[100px] will-change-transform pointer-events-none"
       />
       <motion.div
         style={{ x: orbRightX }}
-        animate={{ 
+        animate={{
           scale: [1.2, 1, 1.2],
           opacity: [0.3, 0.5, 0.3],
         }}
         transition={{ duration: 4, repeat: Infinity, delay: 2 }}
-        className="absolute bottom-1/4 -right-32 w-64 h-64 rounded-full bg-neon-magenta/20 blur-[100px] will-change-transform"
+        className="absolute bottom-1/4 -right-32 w-64 h-64 rounded-full bg-neon-magenta/20 blur-[100px] will-change-transform pointer-events-none"
       />
 
-      {/* Content with parallax + pointerEvents fix */}
-      <motion.div 
+      {/* Main content - fades fast and allows pass-through on fade */}
+      <motion.div
         className="container mx-auto px-4 text-center relative z-10"
-        style={{ 
-          y: contentY, 
+        style={{
+          y: contentY,
           opacity: contentOpacity,
-          pointerEvents  // This allows clicks to pass through when faded
+          pointerEvents, // Critical: disables interaction when fading
         }}
       >
         <motion.div
@@ -271,10 +282,9 @@ const Hero = () => {
             </span>
           </motion.div>
 
-          {/* Animated Main title */}
           <AnimatedTitle />
 
-          <motion.p 
+          <motion.p
             className="font-rajdhani text-xl md:text-2xl lg:text-3xl text-neon-cyan mb-2 font-semibold"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -283,15 +293,17 @@ const Hero = () => {
             Ideate • Build • Innovate • Impact
           </motion.p>
 
-          <motion.p 
+          <motion.p
             className="font-rajdhani text-sm md:text-base text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4 }}
           >
-            This hackathon is organized by the ATHERA Club of Chennai Institute of Technology 
-            as part of the annual symposium. The event is designed to encourage students to ideate, 
-            build, and present impactful technological solutions addressing real-world problems across multiple domains.
+            This hackathon is organized by the ATHERA Club of Chennai Institute
+            of Technology as part of the annual symposium. The event is designed
+            to encourage students to ideate, build, and present impactful
+            technological solutions addressing real-world problems across
+            multiple domains.
           </motion.p>
 
           {/* Event Details Pills */}
@@ -303,19 +315,25 @@ const Hero = () => {
           >
             <div className="flex items-center gap-2 px-4 py-2 border border-neon-magenta/30 rounded-full bg-background/30 backdrop-blur-sm">
               <Clock className="w-4 h-4 text-neon-magenta" />
-              <span className="font-mono text-xs text-foreground/80">8 HOURS</span>
+              <span className="font-mono text-xs text-foreground/80">
+                8 HOURS
+              </span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/30 backdrop-blur-sm">
               <Users className="w-4 h-4 text-neon-cyan" />
-              <span className="font-mono text-xs text-foreground/80">2-4 MEMBERS</span>
+              <span className="font-mono text-xs text-foreground/80">
+                2-4 MEMBERS
+              </span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30 backdrop-blur-sm">
-              <span className="font-mono text-xs text-accent font-semibold">FREE REGISTRATION</span>
+              <span className="font-mono text-xs text-accent font-semibold">
+                FREE REGISTRATION
+              </span>
             </div>
           </motion.div>
 
           {/* Countdown */}
-          <motion.div 
+          <motion.div
             className="flex justify-center gap-4 md:gap-8 mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -328,7 +346,7 @@ const Hero = () => {
           </motion.div>
 
           {/* CTAs */}
-          <motion.div 
+          <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -353,20 +371,22 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - always interactive */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          style={{ pointerEvents: "auto" }} // Always clickable
+          style={{ pointerEvents: "auto" }}
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 cursor-pointer"
           >
-            <span className="font-mono text-xs text-muted-foreground">SCROLL</span>
+            <span className="font-mono text-xs text-muted-foreground">
+              SCROLL
+            </span>
             <ChevronDown className="w-6 h-6 text-neon-cyan" />
           </motion.div>
         </motion.div>
