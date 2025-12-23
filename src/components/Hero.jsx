@@ -293,19 +293,6 @@ const Hero = () => {
             Ideate • Build • Innovate • Impact
           </motion.p>
 
-          <motion.p
-            className="font-rajdhani text-sm md:text-base text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.4 }}
-          >
-            This hackathon is organized by the ATHERA Club of Chennai Institute
-            of Technology as part of the annual symposium. The event is designed
-            to encourage students to ideate, build, and present impactful
-            technological solutions addressing real-world problems across
-            multiple domains.
-          </motion.p>
-
           {/* Event Details Pills */}
           <motion.div
             className="flex flex-wrap justify-center gap-3 mb-8"
@@ -371,7 +358,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator - always interactive */}
+        {/* Scroll indicator - only the animated chevron, no "SCROLL" text */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -382,12 +369,9 @@ const Hero = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 cursor-pointer"
+            className="flex flex-col items-center cursor-pointer"
           >
-            <span className="font-mono text-xs text-muted-foreground">
-              SCROLL
-            </span>
-            <ChevronDown className="w-6 h-6 text-neon-cyan" />
+            <ChevronDown className="w-8 h-8 text-neon-cyan" />
           </motion.div>
         </motion.div>
       </motion.div>
