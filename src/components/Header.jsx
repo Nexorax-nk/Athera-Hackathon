@@ -24,6 +24,7 @@ const Header = () => {
 
   return (
     <>
+      {/* ================= HEADER ================= */}
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -34,38 +35,45 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto px-4 py-4 grid grid-cols-3 items-center">
-          <a href="#home" className="flex items-center gap-2 group">
-            <span className="font-orbitron font-bold text-lg md:text-xl text-glow-cyan text-primary group-hover:animate-pulse-glow transition-all">
+          {/* Logo */}
+          <a href="#home" className="flex items-center gap-2">
+            <span className="font-orbitron font-bold text-lg md:text-xl text-primary text-glow-cyan">
               <GlitchText>HACKWITHMAGNUS</GlitchText>
             </span>
           </a>
 
-          {/* Desktop Nav with Glitch Effects */}
-          <nav className="hidden lg:flex items-center justify-center gap-10">
+          {/* ================= DESKTOP NAV ================= */}
+          <nav className="hidden lg:flex items-center justify-center gap-6">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="font-rajdhani font-medium text-foreground/80 hover:text-primary transition-colors relative group hover-glitch"
+                className="relative text-center font-rajdhani font-medium text-foreground/80 hover:text-primary transition-colors"
               >
-                <GlitchText triggerOnHover={true}>
-                  {link.name}
-                </GlitchText>
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                {/* TEXT ONLY hover */}
+                <span className="inline-block px-1 cursor-pointer">
+                  <GlitchText triggerOnHover>
+                    {link.name}
+                  </GlitchText>
+                </span>
+
+                {/* underline (separate from glitch) */}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
 
+          {/* ================= RIGHT ACTIONS ================= */}
           <div className="flex items-center justify-end gap-4">
             <motion.a
               href="#register"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="hidden md:block px-6 py-2 font-orbitron font-semibold text-sm bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:shadow-[0_0_30px_hsl(var(--neon-cyan)/0.5)] transition-all duration-300 hover-glitch"
+              className="hidden md:block px-6 py-2 font-orbitron font-semibold text-sm bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:shadow-[0_0_30px_hsl(var(--neon-cyan)/0.5)] transition-all duration-300"
             >
               REGISTER
             </motion.a>
-            
+
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="lg:hidden p-2 text-primary hover:text-neon-magenta transition-colors"
@@ -76,7 +84,7 @@ const Header = () => {
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* ================= MOBILE MENU ================= */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -86,9 +94,6 @@ const Header = () => {
             transition={{ type: "spring", damping: 25 }}
             className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl"
           >
-            {/* Scanlines overlay */}
-            <div className="absolute inset-0 scanline pointer-events-none opacity-50" />
-            
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
               <span className="font-orbitron font-bold text-xl text-primary text-glow-cyan">
                 HACKWITHMAGNUS
@@ -100,7 +105,7 @@ const Header = () => {
                 <X size={28} />
               </button>
             </div>
-            
+
             <nav className="flex flex-col items-center justify-center h-[80vh] gap-8">
               {navLinks.map((link, index) => (
                 <motion.a
@@ -112,11 +117,12 @@ const Header = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="font-orbitron text-2xl text-foreground hover:text-primary transition-colors"
                 >
-                  <GlitchText triggerOnHover={true}>
+                  <GlitchText triggerOnHover>
                     {link.name}
                   </GlitchText>
                 </motion.a>
               ))}
+
               <motion.a
                 href="#register"
                 initial={{ opacity: 0, scale: 0.8 }}

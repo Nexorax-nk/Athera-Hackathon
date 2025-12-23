@@ -1,6 +1,8 @@
 import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-
+<span className="pointer-events-none">
+  {/* glitch layers */}
+</span>
 const GlitchText = ({ 
   children, 
   className = "", 
