@@ -6,7 +6,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
-import heroVideo from "@/assets/herobg.mp4";
+import heroVideo from "@/assets/herobg1.mp4";
 
 const CountdownUnit = ({ value, label }) => (
   <div className="flex flex-col items-center">
