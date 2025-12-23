@@ -49,10 +49,10 @@ const About = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="
                 p-6 rounded-lg bg-card/50 backdrop-blur-sm
-                border border-neon-cyan/20
+                border border-neon-cyan/30
                 transition-all duration-300
-                hover:border-neon-cyan/60
-                hover:shadow-[0_0_25px_hsl(var(--neon-cyan)/0.35)]
+                hover:border-neon-cyan
+                hover:box-glow-cyan
               "
             >
               <div className="flex flex-col items-center">
@@ -78,10 +78,10 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="
               p-6 rounded-lg bg-card/30 backdrop-blur-sm
-              border border-neon-cyan/20
+              border border-neon-cyan/30
               transition-all duration-300
-              hover:border-neon-cyan/60
-              hover:shadow-[0_0_25px_hsl(var(--neon-cyan)/0.35)]
+              hover:border-neon-cyan
+              hover:box-glow-cyan
             "
           >
             <div className="flex items-center gap-3 mb-4">
@@ -103,10 +103,10 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="
               p-6 rounded-lg bg-card/30 backdrop-blur-sm
-              border border-neon-magenta/20
+              border border-neon-magenta/30
               transition-all duration-300
-              hover:border-neon-magenta/60
-              hover:shadow-[0_0_25px_hsl(var(--neon-magenta)/0.35)]
+              hover:border-neon-magenta
+              hover:box-glow-magenta
             "
           >
             <div className="flex items-center gap-3 mb-4">
@@ -139,10 +139,10 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
               className="
                 p-6 rounded-lg bg-card/30 backdrop-blur-sm
-                border border-neon-magenta/20
+                border border-neon-magenta/30
                 transition-all duration-300
-                hover:border-neon-magenta/60
-                hover:shadow-[0_0_25px_hsl(var(--neon-magenta)/0.35)]
+                hover:border-neon-magenta
+                hover:box-glow-magenta
               "
             >
               <h3 className="font-orbitron text-xl font-bold text-neon-magenta mb-3">

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Globe, Coins, BookOpen, Heart, Leaf, Lightbulb } from "lucide-react";
+import { Globe, Coins, BookOpen, Heart, Leaf } from "lucide-react";
 import GlitchText from "./GlitchText";
 
 const tracks = [
@@ -10,6 +10,7 @@ const tracks = [
     description:
       "Build decentralized applications, smart contracts, and blockchain-based solutions that redefine trust and transparency.",
     color: "cyan",
+    position: "top-left",
   },
   {
     icon: Coins,
@@ -17,6 +18,7 @@ const tracks = [
     description:
       "Create innovative financial technology solutions — digital payments, banking, investment platforms, and more.",
     color: "magenta",
+    position: "top-right",
   },
   {
     icon: BookOpen,
@@ -24,6 +26,7 @@ const tracks = [
     description:
       "Transform education with technology — e-learning platforms, adaptive learning, gamification, and accessibility tools.",
     color: "yellow",
+    position: "center",
   },
   {
     icon: Heart,
@@ -31,6 +34,7 @@ const tracks = [
     description:
       "Revolutionize healthcare with digital health solutions, telemedicine, health monitoring, and patient management systems.",
     color: "cyan",
+    position: "bottom-left",
   },
   {
     icon: Leaf,
@@ -38,13 +42,7 @@ const tracks = [
     description:
       "Address environmental challenges with sustainable tech solutions — clean energy, waste management, and eco-friendly innovations.",
     color: "magenta",
-  },
-  {
-    icon: Lightbulb,
-    title: "OPEN INNOVATION",
-    description:
-      "Got a unique idea that doesn't fit the other categories? This track is for creative, out-of-the-box solutions.",
-    color: "yellow",
+    position: "bottom-right",
   },
 ];
 
@@ -66,6 +64,14 @@ const colorClasses = {
   },
 };
 
+const positionClasses = {
+  "top-left": "lg:col-start-1 lg:row-start-1",
+  "top-right": "lg:col-start-3 lg:row-start-1",
+  center: "lg:col-start-2 lg:row-start-2",
+  "bottom-left": "lg:col-start-1 lg:row-start-3",
+  "bottom-right": "lg:col-start-3 lg:row-start-3",
+};
+
 const Tracks = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -85,32 +91,33 @@ const Tracks = () => {
             // CHOOSE YOUR DOMAIN
           </span>
 
-          {/* ❌ No text glow here */}
           <GlitchText
-            glitchOnMount={true}
+            glitchOnMount
             className="font-orbitron text-3xl md:text-5xl font-extrabold mb-4 tracking-widest uppercase text-neon-cyan"
           >
             INNOVATION DOMAINS
           </GlitchText>
 
           <p className="font-rajdhani text-lg text-muted-foreground max-w-2xl mx-auto">
-            Six domains. Endless possibilities. Pick your area of expertise and build solutions that matter.
+            Pick your area of expertise and build solutions that matter.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 gap-6 place-items-center">
           {tracks.map((track, index) => {
-            const classes = colorClasses[track.color];
+            const colors = colorClasses[track.color];
+            const layout = positionClasses[track.position];
+
             return (
               <motion.div
                 key={track.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`group p-6 border rounded-lg bg-card/30 backdrop-blur-sm ${classes.border} ${classes.glow} transition-all duration-300`}
+                className={`w-full max-w-sm group p-6 border rounded-lg bg-card/30 backdrop-blur-sm ${colors.border} ${colors.glow} transition-all duration-300 ${layout}`}
               >
                 <track.icon
-                  className={`w-10 h-10 ${classes.icon} mb-4 group-hover:scale-110 transition-transform`}
+                  className={`w-10 h-10 ${colors.icon} mb-4 group-hover:scale-110 transition-transform`}
                 />
 
                 <h3 className="font-orbitron text-lg font-bold text-foreground mb-2">
