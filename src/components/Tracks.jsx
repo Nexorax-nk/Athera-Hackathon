@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Globe, Coins, BookOpen, Heart, Leaf } from "lucide-react";
-import GlitchText from "./GlitchText";
 
 const tracks = [
   {
@@ -91,12 +90,10 @@ const Tracks = () => {
             // CHOOSE YOUR DOMAIN
           </span>
 
-          <GlitchText
-            glitchOnMount
-            className="font-orbitron text-3xl md:text-5xl font-extrabold mb-4 tracking-widest uppercase text-neon-cyan"
-          >
+          {/* Section title "INNOVATION DOMAINS" now has the pink-violet-purple gradient */}
+          <h2 className="font-orbitron text-3xl md:text-5xl font-extrabold mb-4 tracking-widest uppercase gradient-text-pinkviolet">
             INNOVATION DOMAINS
-          </GlitchText>
+          </h2>
 
           <p className="font-rajdhani text-lg text-muted-foreground max-w-2xl mx-auto">
             Pick your area of expertise and build solutions that matter.
@@ -120,6 +117,7 @@ const Tracks = () => {
                   className={`w-10 h-10 ${colors.icon} mb-4 group-hover:scale-110 transition-transform`}
                 />
 
+                {/* Domain titles remain original color (no gradient) */}
                 <h3 className="font-orbitron text-lg font-bold text-foreground mb-2">
                   {track.title}
                 </h3>

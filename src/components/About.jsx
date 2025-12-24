@@ -1,6 +1,13 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Users, Clock, Calendar, MapPin, GraduationCap, Wallet } from "lucide-react";
+import {
+  Users,
+  Clock,
+  Calendar,
+  MapPin,
+  GraduationCap,
+  Wallet,
+} from "lucide-react";
 
 const eventDetails = [
   { icon: Calendar, value: "Feb 2, 2026", label: "Final Round" },
@@ -29,7 +36,7 @@ const About = () => {
             // ABOUT THE EVENT
           </span>
 
-          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-6 text-primary">
+          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-6 gradient-text-pinkviolet">
             ATHERA INNOVATION SPRINT
           </h2>
 
@@ -58,6 +65,7 @@ const About = () => {
               <div className="flex flex-col items-center">
                 <detail.icon className="w-8 h-8 text-neon-magenta mb-3" />
 
+                {/* Original cyan color */}
                 <span className="font-orbitron text-2xl md:text-3xl font-bold text-primary">
                   {detail.value}
                 </span>
@@ -86,7 +94,7 @@ const About = () => {
           >
             <div className="flex items-center gap-3 mb-4">
               <GraduationCap className="w-8 h-8 text-neon-cyan" />
-              <h3 className="font-orbitron text-xl font-bold text-neon-cyan">
+              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet">
                 ELIGIBILITY
               </h3>
             </div>
@@ -111,7 +119,7 @@ const About = () => {
           >
             <div className="flex items-center gap-3 mb-4">
               <MapPin className="w-8 h-8 text-neon-magenta" />
-              <h3 className="font-orbitron text-xl font-bold text-neon-magenta">
+              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet">
                 VENUE
               </h3>
             </div>
@@ -145,7 +153,7 @@ const About = () => {
                 hover:box-glow-magenta
               "
             >
-              <h3 className="font-orbitron text-xl font-bold text-neon-magenta mb-3">
+              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet mb-3">
                 {feature.title}
               </h3>
               <p className="font-rajdhani text-muted-foreground">

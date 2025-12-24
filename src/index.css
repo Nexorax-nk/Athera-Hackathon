@@ -46,6 +46,14 @@
     /* Gradients */
     --gradient-cyber: linear-gradient(135deg, hsl(var(--neon-cyan)) 0%, hsl(var(--neon-magenta)) 100%);
     --gradient-sunset: linear-gradient(180deg, hsl(var(--neon-magenta)) 0%, hsl(var(--neon-yellow)) 100%);
+    
+    /* NEW: Pink → Violet → Purple gradient (exactly what you asked for) */
+    --gradient-pinkviolet: linear-gradient(90deg, 
+      #ff006e 0%,    /* Hot pink */
+      #c23bff 30%,   /* Bright violet */
+      #8b5cf6 60%,   /* Soft purple */
+      #5b3bff 100%   /* Deep indigo-purple */
+    );
   }
 }
 
@@ -65,6 +73,24 @@
 }
 
 @layer utilities {
+  /* NEW: Pink-violet-purple gradient text class */
+  .gradient-text-pinkviolet {
+    background: var(--gradient-pinkviolet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Optional: Add subtle glow for extra pop (use class gradient-text-pinkviolet-glow if you want it) */
+  .gradient-text-pinkviolet-glow {
+    @apply gradient-text-pinkviolet;
+    text-shadow: 
+      0 0 10px #ff006e80,
+      0 0 20px #c23bff60,
+      0 0 40px #8b5cf640,
+      0 0 80px #5b3bff30;
+  }
+
   .text-glow-cyan {
     text-shadow: 0 0 10px hsl(var(--neon-cyan)), 0 0 20px hsl(var(--neon-cyan)), 0 0 40px hsl(var(--neon-cyan) / 0.5);
   }
@@ -238,7 +264,6 @@
   100% { top: 100%; }
 }
 
-/* Isolated glitch animation - no layout shift */
 @keyframes glitch-text {
   0%, 100% {
     text-shadow: 2px 0 hsl(var(--neon-cyan)), -2px 0 hsl(var(--neon-magenta));
@@ -278,7 +303,6 @@
   animation: glitch 0.3s ease-in-out infinite;
 }
 
-/* Glitch text effect - Spiderverse inspired */
 .glitch-text {
   position: relative;
   animation: glitch-skew 0.5s ease-in-out;
@@ -304,7 +328,6 @@
   clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
 }
 
-/* Hover glitch effect for interactive elements */
 .hover-glitch {
   position: relative;
   transition: all 0.3s ease;
@@ -332,7 +355,6 @@
   transform: translateX(100%);
 }
 
-/* Timeline vertical line animation */
 @keyframes timeline-pulse {
   0%, 100% { 
     box-shadow: 0 0 5px hsl(var(--neon-cyan) / 0.5);
@@ -346,7 +368,6 @@
   animation: timeline-pulse 2s ease-in-out infinite;
 }
 
-/* Selection */
 ::selection {
   background: hsl(var(--neon-cyan) / 0.3);
   color: hsl(var(--foreground));

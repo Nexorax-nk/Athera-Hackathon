@@ -23,10 +23,10 @@ const CountdownUnit = ({ value, label }) => (
   </div>
 );
 
-// Animated title with letter-by-letter reveal
+// Animated title - original glitch restored, but main title uses pink-violet-purple gradient
 const AnimatedTitle = () => {
   const titleParts = [
-    { text: "HACKWITHMAGNUS", className: "gradient-text-cyber" },
+    { text: "HACKWITHMAGNUS", className: "gradient-text-pinkviolet" }, // Only this gets the new gradient
   ];
 
   const containerVariants = {
@@ -93,12 +93,6 @@ const AnimatedTitle = () => {
               key={`${partIndex}-${letterIndex}`}
               variants={letterVariants}
               className="inline-block"
-              style={{
-                textShadow:
-                  partIndex === 0 || partIndex === 2
-                    ? "0 0 20px currentColor"
-                    : "none",
-              }}
             >
               {letter === " " ? "\u00A0" : letter}
             </motion.span>
@@ -133,19 +127,16 @@ const Hero = () => {
     offset: ["start start", "end start"],
   });
 
-  // Faster and cleaner parallax + fade
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-  // Content fades out quickly (by 20% scroll progress)
   const contentY = useTransform(scrollYProgress, [0, 0.2], ["0%", "10%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
   const orbLeftX = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
-  // Disable pointer events early during fade
   useMotionValueEvent(contentOpacity, "change", (latest) => {
     setPointerEvents(latest < 0.9 ? "none" : "auto");
   });
@@ -250,13 +241,13 @@ const Hero = () => {
         className="absolute bottom-1/4 -right-32 w-64 h-64 rounded-full bg-neon-magenta/20 blur-[100px] will-change-transform pointer-events-none"
       />
 
-      {/* Main content - fades fast and allows pass-through on fade */}
+      {/* Main content */}
       <motion.div
         className="container mx-auto px-4 text-center relative z-10"
         style={{
           y: contentY,
           opacity: contentOpacity,
-          pointerEvents, // Critical: disables interaction when fading
+          pointerEvents,
         }}
       >
         <motion.div
@@ -358,7 +349,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator - only the animated chevron, no "SCROLL" text */}
+        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

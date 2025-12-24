@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FileText, Code, Trophy } from "lucide-react";
-import GlitchText from "./GlitchText";
 
 const rounds = [
   {
@@ -69,12 +68,9 @@ const RoundCard = ({ round, index }) => {
             <span className="font-mono text-xs text-neon-magenta font-semibold block">
               {round.round}
             </span>
-            <h3 className={`font-orbitron font-bold text-xl ${
-              round.highlight ? 'text-neon-cyan text-glow-cyan' : 'text-foreground'
-            }`}>
-              <GlitchText triggerOnHover={true}>
-                {round.title}
-              </GlitchText>
+            {/* Reverted to original: no gradient */}
+            <h3 className="font-orbitron font-bold text-xl text-foreground">
+              {round.title}
             </h3>
           </div>
         </div>
@@ -115,10 +111,9 @@ const Schedule = () => {
           <span className="font-mono text-sm text-neon-cyan mb-4 block tracking-widest">
             // HACKATHON STRUCTURE
           </span>
-          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-4">
-            <GlitchText triggerOnHover={false} glitchOnMount={true}>
-              THREE ROUNDS
-            </GlitchText>
+          {/* Only this one keeps the special pink-violet-purple gradient */}
+          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-4 gradient-text-pinkviolet">
+            THREE ROUNDS
           </h2>
           <p className="font-rajdhani text-lg text-muted-foreground max-w-2xl mx-auto">
             From idea to prototype to final demo. Prove yourself through each stage of the competition.
