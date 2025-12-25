@@ -11,7 +11,7 @@ const prizeData = [
     borderColor: "border-yellow-400/50",
     glowColor: "shadow-[0_0_60px_hsl(45,100%,50%,0.3)]",
     textColor: "text-yellow-400",
-    prize: "To be announced",
+    prize: "15,000 INR",
     scale: "md:scale-110",
   },
   {
@@ -22,7 +22,7 @@ const prizeData = [
     borderColor: "border-slate-300/50",
     glowColor: "shadow-[0_0_40px_hsl(210,10%,70%,0.3)]",
     textColor: "text-slate-300",
-    prize: "To be announced",
+    prize: "10,000 INR",
     scale: "",
   },
   {
@@ -33,7 +33,7 @@ const prizeData = [
     borderColor: "border-amber-600/50",
     glowColor: "shadow-[0_0_40px_hsl(30,80%,40%,0.3)]",
     textColor: "text-amber-500",
-    prize: "To be announced",
+    prize: "5,000 INR",
     scale: "",
   },
 ];
@@ -80,8 +80,8 @@ const PrizeCard = ({ prize, index, inView }) => {
             {prize.title}
           </h3>
 
-          {/* Prize */}
-          <p className="font-rajdhani text-sm md:text-base text-muted-foreground">
+          {/* Prize - Now BOLD and COLORED to match */}
+          <p className={`font-orbitron text-2xl md:text-3xl font-extrabold ${prize.textColor} tracking-wide`}>
             {prize.prize}
           </p>
         </div>

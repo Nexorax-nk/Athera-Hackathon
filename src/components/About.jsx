@@ -12,7 +12,7 @@ import {
 const eventDetails = [
   { icon: Calendar, value: "Feb 2, 2026", label: "Final Round" },
   { icon: Clock, value: "8", label: "Hours" },
-  { icon: Users, value: "2-4", label: "Team Size" },
+  { icon: Users, value: "3-5", label: "Team Size" },
   { icon: Wallet, value: "FREE", label: "Registration" },
 ];
 
@@ -101,7 +101,7 @@ const About = () => {
 
             <p className="font-rajdhani text-muted-foreground">
               Open to all <span className="text-primary font-semibold">UG and PG students</span>.
-              Teams of 2–4 members.
+              Teams of 3–5 members.
             </p>
           </motion.div>
 

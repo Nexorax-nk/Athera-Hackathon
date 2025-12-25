@@ -300,7 +300,7 @@ const Hero = () => {
             <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/30 backdrop-blur-sm">
               <Users className="w-4 h-4 text-neon-cyan" />
               <span className="font-mono text-xs text-foreground/80">
-                2-4 MEMBERS
+                3-5 MEMBERS
               </span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30 backdrop-blur-sm">

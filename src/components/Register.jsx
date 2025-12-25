@@ -59,7 +59,7 @@ const Register = () => {
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30">
               <Users className="w-4 h-4 text-accent" />
-              <span className="font-mono text-sm text-foreground/80">Teams of 2-4</span>
+              <span className="font-mono text-sm text-foreground/80">Teams of 3-5</span>
             </div>
           </motion.div>
 
