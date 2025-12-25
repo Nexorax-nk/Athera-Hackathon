@@ -45,7 +45,7 @@ const Header = () => {
                 textShadow: "0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.4)" 
               }}
             >
-              <GlitchText>HACKWITHMAGNUS</GlitchText>
+              <GlitchText>ATHERA X MAGNUS</GlitchText>
             </span>
           </a>
 
