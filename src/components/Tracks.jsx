@@ -86,9 +86,7 @@ const Tracks = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="font-mono text-sm text-neon-magenta mb-4 block tracking-widest">
-            // CHOOSE YOUR DOMAIN
-          </span>
+         
 
           {/* Section title "INNOVATION DOMAINS" now has the pink-violet-purple gradient */}
           <h2 className="font-orbitron text-3xl md:text-5xl font-extrabold mb-4 tracking-widest uppercase gradient-text-pinkviolet">

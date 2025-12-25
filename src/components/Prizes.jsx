@@ -106,9 +106,7 @@ const Prizes = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="font-mono text-sm text-accent mb-4 block tracking-widest">
-            // REWARDS
-          </span>
+         
           <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-4 gradient-text-cyber">
             PRIZES
           </h2>

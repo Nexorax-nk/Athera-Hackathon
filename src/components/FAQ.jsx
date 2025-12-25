@@ -109,9 +109,7 @@ const FAQ = () => {
           className="max-w-3xl mx-auto mb-20"
         >
           <div className="text-center mb-8">
-            <span className="font-mono text-sm text-neon-magenta mb-4 block tracking-widest">
-              // JUDGING CRITERIA
-            </span>
+           
             <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-sunset">
               EVALUATION CRITERIA
             </h2>
@@ -141,9 +139,7 @@ const FAQ = () => {
           className="max-w-3xl mx-auto mb-20"
         >
           <div className="text-center mb-8">
-            <span className="font-mono text-sm text-accent mb-4 block tracking-widest">
-              // IMPORTANT
-            </span>
+         
             <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-accent text-glow-yellow">
               RULES & GUIDELINES
             </h2>
@@ -176,9 +172,7 @@ const FAQ = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center mb-12"
         >
-          <span className="font-mono text-sm text-neon-cyan mb-4 block tracking-widest">
-            // GOT QUESTIONS?
-          </span>
+         
           <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-cyber">
             FREQUENTLY ASKED QUESTIONS
           </h2>

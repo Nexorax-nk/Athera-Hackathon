@@ -108,9 +108,7 @@ const Schedule = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="font-mono text-sm text-neon-cyan mb-4 block tracking-widest">
-            // HACKATHON STRUCTURE
-          </span>
+          
           {/* Only this one keeps the special pink-violet-purple gradient */}
           <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-4 gradient-text-pinkviolet">
             THREE ROUNDS

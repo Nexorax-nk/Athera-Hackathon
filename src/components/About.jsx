@@ -32,11 +32,8 @@ const About = () => {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto text-center mb-16"
         >
-          <span className="font-mono text-sm text-neon-cyan mb-4 block tracking-widest">
-            // ABOUT THE EVENT
-          </span>
-
-          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-6 gradient-text-pinkviolet">
+          {/* 🔹 SAME COLOR AS FAQ TITLE */}
+          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-6 gradient-text-cyber">
             ATHERA INNOVATION SPRINT
           </h2>
 
@@ -65,7 +62,6 @@ const About = () => {
               <div className="flex flex-col items-center">
                 <detail.icon className="w-8 h-8 text-neon-magenta mb-3" />
 
-                {/* Original cyan color */}
                 <span className="font-orbitron text-2xl md:text-3xl font-bold text-primary">
                   {detail.value}
                 </span>
@@ -94,7 +90,9 @@ const About = () => {
           >
             <div className="flex items-center gap-3 mb-4">
               <GraduationCap className="w-8 h-8 text-neon-cyan" />
-              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet">
+
+              {/* 🔹 SAME COLOR AS FAQ TITLE */}
+              <h3 className="font-orbitron text-xl font-bold gradient-text-cyber">
                 ELIGIBILITY
               </h3>
             </div>
@@ -119,7 +117,9 @@ const About = () => {
           >
             <div className="flex items-center gap-3 mb-4">
               <MapPin className="w-8 h-8 text-neon-magenta" />
-              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet">
+
+              {/* 🔹 SAME COLOR AS FAQ TITLE */}
+              <h3 className="font-orbitron text-xl font-bold gradient-text-cyber">
                 VENUE
               </h3>
             </div>
@@ -153,7 +153,7 @@ const About = () => {
                 hover:box-glow-magenta
               "
             >
-              <h3 className="font-orbitron text-xl font-bold gradient-text-pinkviolet mb-3">
+              <h3 className="font-orbitron text-xl font-bold text-neon-magenta mb-3">
                 {feature.title}
               </h3>
               <p className="font-rajdhani text-muted-foreground">
