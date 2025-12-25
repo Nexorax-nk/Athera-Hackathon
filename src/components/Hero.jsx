@@ -10,13 +10,14 @@ import heroVideo from "@/assets/herobg1.mp4";
 const CountdownUnit = ({ value, label }) => (
   <div className="flex flex-col items-center">
     <div className="relative">
-      <div className="w-16 h-16 md:w-24 md:h-24 flex items-center justify-center border border-neon-cyan/50 bg-background/50 backdrop-blur-sm box-glow-cyan rounded">
-        <span className="font-orbitron text-2xl md:text-4xl font-bold text-primary text-glow-cyan">
+      {/* MOBILE FIX: Changed w-16 h-16 to w-12 h-12 for small screens, scaling up at sm and md breakpoints */}
+      <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 flex items-center justify-center border border-neon-cyan/50 bg-background/50 backdrop-blur-sm box-glow-cyan rounded">
+        <span className="font-orbitron text-lg sm:text-2xl md:text-4xl font-bold text-primary text-glow-cyan">
           {value.toString().padStart(2, "0")}
         </span>
       </div>
     </div>
-    <span className="mt-2 font-mono text-xs md:text-sm text-muted-foreground uppercase tracking-widest">
+    <span className="mt-2 font-mono text-[10px] sm:text-xs md:text-sm text-muted-foreground uppercase tracking-widest">
       {label}
     </span>
   </div>
@@ -75,9 +76,8 @@ const AnimatedTitle = () => {
 
   return (
     <motion.h1
-      // FIXED: Added flex, items-center, and justify-center to force true centering
-      // Added mr-[-0.1em] to visually balance the tracking-widest (optical centering)
-      className="flex flex-col items-center justify-center w-full font-orbitron font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight tracking-widest z-20 relative mr-[-0.1em]"
+      // MOBILE FIX: Adjusted text size to start at text-2xl for small mobile screens
+      className="flex flex-col items-center justify-center w-full font-orbitron font-black text-2xl xs:text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight tracking-widest z-20 relative mr-[-0.1em]"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -85,7 +85,7 @@ const AnimatedTitle = () => {
       {titleParts.map((part, partIndex) => (
         <motion.span
           key={partIndex}
-          className={`${part.className} inline-block text-center`}
+          className={`${part.className} inline-block text-center break-words max-w-full`}
           animate="idle"
           variants={glowVariants}
         >
@@ -101,7 +101,8 @@ const AnimatedTitle = () => {
         </motion.span>
       ))}
       <motion.span
-        className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold tracking-normal"
+        // MOBILE FIX: Adjusted text size for the year
+        className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold tracking-normal"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
@@ -130,11 +131,8 @@ const Hero = () => {
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-  // FIXED: Reduced movement from 20% to 5% so content stays higher up when scrolling
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
   
-  // FIXED: Removed buttonOpacity transform. Buttons now stay solid.
-
   const orbLeftX = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
@@ -249,31 +247,38 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          // FIXED: Added pb-10 to ensure padding at the bottom so buttons don't hit edge
-          className="flex flex-col items-center pb-10" 
+          // MOBILE FIX: Added px-2 to prevent side collision on very small screens
+          className="flex flex-col items-center pb-10 px-2" 
         >
-          {/* Date badge - FIXED: Reduced mt-16 to mt-4 to pull everything up */}
+          {/* Date badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mt-4 mb-8 border border-neon-cyan/30 rounded-full bg-background/50 backdrop-blur-sm"
+            // MOBILE FIX: flex-col for small screens, row for larger. Reduced margins.
+            className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 px-4 py-2 mt-4 mb-6 sm:mb-8 border border-neon-cyan/30 rounded-2xl sm:rounded-full bg-background/50 backdrop-blur-sm"
           >
-            <Calendar className="w-4 h-4 text-neon-cyan" />
-            <span className="font-mono text-sm text-foreground/80">
-              FEBRUARY 2, 2026
-            </span>
-            <span className="text-foreground/40">|</span>
-            <MapPin className="w-4 h-4 text-neon-magenta" />
-            <span className="font-mono text-sm text-foreground/80">
-              CHENNAI INSTITUTE OF TECHNOLOGY
-            </span>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-neon-cyan" />
+              <span className="font-mono text-xs sm:text-sm text-foreground/80 whitespace-nowrap">
+                FEBRUARY 2, 2026
+              </span>
+            </div>
+            
+            <span className="hidden sm:inline text-foreground/40">|</span>
+            
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-neon-magenta" />
+              <span className="font-mono text-xs sm:text-sm text-foreground/80 text-center sm:text-left">
+                CHENNAI INSTITUTE OF TECHNOLOGY
+              </span>
+            </div>
           </motion.div>
 
           <AnimatedTitle />
 
           <motion.p
-            className="font-rajdhani text-xl md:text-2xl lg:text-3xl text-neon-cyan mb-2 font-semibold"
+            className="font-rajdhani text-lg sm:text-xl md:text-2xl lg:text-3xl text-neon-cyan mb-4 font-semibold px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
@@ -283,33 +288,33 @@ const Hero = () => {
 
           {/* Event Details Pills */}
           <motion.div
-            className="flex flex-wrap justify-center gap-3 mb-8"
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 max-w-lg mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5 }}
           >
-            <div className="flex items-center gap-2 px-4 py-2 border border-neon-magenta/30 rounded-full bg-background/30 backdrop-blur-sm">
-              <Clock className="w-4 h-4 text-neon-magenta" />
-              <span className="font-mono text-xs text-foreground/80">
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 border border-neon-magenta/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-neon-magenta" />
+              <span className="font-mono text-[10px] sm:text-xs text-foreground/80 whitespace-nowrap">
                 8 HOURS
               </span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/30 backdrop-blur-sm">
-              <Users className="w-4 h-4 text-neon-cyan" />
-              <span className="font-mono text-xs text-foreground/80">
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 border border-neon-cyan/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <Users className="w-3 h-3 sm:w-4 sm:h-4 text-neon-cyan" />
+              <span className="font-mono text-[10px] sm:text-xs text-foreground/80 whitespace-nowrap">
                 3-5 MEMBERS
               </span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30 backdrop-blur-sm">
-              <span className="font-mono text-xs text-accent font-semibold">
+            <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 border border-accent/30 rounded-full bg-background/30 backdrop-blur-sm">
+              <span className="font-mono text-[10px] sm:text-xs text-accent font-semibold whitespace-nowrap">
                 FREE REGISTRATION
               </span>
             </div>
           </motion.div>
 
-          {/* Countdown */}
+          {/* Countdown - MOBILE FIX: Adjusted gap */}
           <motion.div
-            className="flex justify-center gap-4 md:gap-8 mb-12"
+            className="flex justify-center gap-3 sm:gap-4 md:gap-8 mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.6 }}
@@ -320,9 +325,9 @@ const Hero = () => {
             <CountdownUnit value={timeLeft.seconds} label="Seconds" />
           </motion.div>
 
-          {/* CTAs - FIXED: Removed style={{ opacity }} so they stay visible */}
+          {/* CTAs - MOBILE FIX: Full width buttons on mobile, row on desktop */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto px-6 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8 }}
@@ -331,7 +336,7 @@ const Hero = () => {
               href="#register"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 font-orbitron font-bold text-lg bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:shadow-[0_0_40px_hsl(var(--neon-cyan)/0.5)] transition-all duration-300 hover-glitch"
+              className="px-8 py-3 sm:py-4 font-orbitron font-bold text-base sm:text-lg bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:shadow-[0_0_40px_hsl(var(--neon-cyan)/0.5)] transition-all duration-300 hover-glitch w-full sm:w-auto"
             >
               REGISTER NOW
             </motion.a>
@@ -339,19 +344,19 @@ const Hero = () => {
               href="#schedule"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 font-orbitron font-bold text-lg border-2 border-neon-magenta text-neon-magenta rounded hover:bg-neon-magenta/10 hover:shadow-[0_0_30px_hsl(var(--neon-magenta)/0.3)] transition-all duration-300"
+              className="px-8 py-3 sm:py-4 font-orbitron font-bold text-base sm:text-lg border-2 border-neon-magenta text-neon-magenta rounded hover:bg-neon-magenta/10 hover:shadow-[0_0_30px_hsl(var(--neon-magenta)/0.3)] transition-all duration-300 w-full sm:w-auto"
             >
               VIEW SCHEDULE
             </motion.a>
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator - MOBILE FIX: Hide on very small screens if needed, otherwise keep */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2"
           style={{ pointerEvents: "auto" }}
         >
           <motion.div
@@ -359,7 +364,7 @@ const Hero = () => {
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center cursor-pointer"
           >
-            <ChevronDown className="w-8 h-8 text-neon-cyan" />
+            <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-neon-cyan" />
           </motion.div>
         </motion.div>
       </motion.div>
