@@ -1,94 +1,138 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ChevronDown, CheckCircle, AlertTriangle } from "lucide-react";
+import { 
+  Plus, 
+  Minus, 
+  Target, 
+  Code, 
+  Zap, 
+  Monitor, 
+  Mic, 
+  AlertTriangle,
+  Check
+} from "lucide-react";
 
+// --- DATA ---
 const faqs = [
   {
-    question: "Who can participate in ATHERA Innovation Sprint?",
-    answer: "The hackathon is open to all UG and PG students from any college. Teams must consist of 2 to 4 members. Registration is completely free!",
+    question: "Who can participate?",
+    answer: "Open to all UG and PG students from any college. Teams of 3-5 members. Zero registration fee.",
   },
   {
-    question: "What domains can I build projects in?",
-    answer: "You can choose from 6 domains: Web3 & Blockchain, FinTech, EduTech, HealthTech, GreenTech & Sustainability, or Open Innovation for unique ideas that don't fit other categories.",
+    question: "What are the domains?",
+    answer: "Web3, FinTech, EduTech, HealthTech, GreenTech, and Open Innovation.",
   },
   {
-    question: "What is the hackathon structure?",
-    answer: "The hackathon has 3 rounds: Round 1 is PPT submission where you present your idea. Round 2 is Prototype submission for shortlisted teams. Round 3 is the offline 8-hour final round at Chennai Institute of Technology on February 2, 2026.",
+    question: "Hackathon Structure?",
+    answer: "Round 1: PPT Submission. Round 2: Prototype Submission. Round 3: Offline 8-hr Finale at CIT.",
   },
   {
-    question: "What should I include in my PPT submission?",
-    answer: "Your presentation should cover: problem statement, proposed solution, key features, technology stack, expected impact, and feasibility of implementation.",
+    question: "PPT Requirements?",
+    answer: "Problem statement, solution, features, tech stack, impact, and feasibility.",
   },
   {
-    question: "Can I use any programming language or framework?",
-    answer: "Yes! Participants are free to use any programming languages, tools, or frameworks they prefer. Choose the tech stack that best suits your solution.",
+    question: "Tech Stack restrictions?",
+    answer: "None. You are free to use any language, framework, or tool.",
   },
   {
-    question: "How is judging done?",
-    answer: "Projects are evaluated on: Innovation and originality, Technical implementation, Practicality and real-world impact, User experience and interface quality, and Presentation clarity and problem-solving approach.",
+    question: "Judging Criteria?",
+    answer: "Innovation, Tech Implementation, Impact, UX/UI, and Presentation.",
   },
 ];
 
 const evaluationCriteria = [
-  "Innovation and originality",
-  "Technical implementation",
-  "Practicality and potential real-world impact",
-  "User experience and interface quality",
-  "Presentation clarity and problem-solving approach",
+  { title: "Innovation", icon: Target, desc: "Originality of the idea" },
+  { title: "Tech Stack", icon: Code, desc: "Code quality & implementation" },
+  { title: "Impact", icon: Zap, desc: "Real-world practicality" },
+  { title: "UI/UX", icon: Monitor, desc: "Design & User Experience" },
+  { title: "Pitch", icon: Mic, desc: "Clarity of presentation" },
 ];
 
 const rules = [
-  "All submitted work must be original.",
-  "Plagiarism or duplication will result in immediate disqualification.",
-  "Teams must adhere to all deadlines for each round.",
-  "Participants are free to use any programming languages, tools, or frameworks.",
-  "Professional and respectful conduct is expected throughout the event.",
-  "Judges' decisions will be final.",
+  "Original work only. Plagiarism leads to disqualification.",
+  "Teams must strictly adhere to the provided deadlines.",
+  "Teams must consist of 3 to 5 members.",
+  "Professional and respectful conduct is mandatory.",
+  "Judges' decisions are final and binding.",
 ];
 
-const FAQItem = ({ question, answer, isOpen, onClick }) => (
+// --- COMPONENTS ---
+
+// 1. Evaluation Card (Neon Glass Style)
+const CriteriaCard = ({ item, index }) => (
   <motion.div
-    initial={false}
-    className={`border rounded-lg transition-all duration-300 ${
-      isOpen 
-        ? "border-neon-cyan bg-card/50" 
-        : "border-border/50 bg-card/20 hover:border-neon-cyan/50"
-    }`}
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: index * 0.1 }}
+    viewport={{ once: true }}
+    className="group relative p-6 rounded-xl bg-card/20 border border-neon-cyan/20 hover:border-neon-cyan backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(0,240,255,0.2)] text-center flex flex-col items-center"
   >
+    <div className="p-4 mb-4 rounded-full bg-neon-cyan/10 text-neon-cyan group-hover:bg-neon-cyan group-hover:text-black transition-colors duration-300">
+      <item.icon className="w-8 h-8" />
+    </div>
+    <h3 className="font-orbitron text-lg font-bold text-white mb-2">{item.title}</h3>
+    <p className="font-rajdhani text-sm text-muted-foreground">{item.desc}</p>
+  </motion.div>
+);
+
+// 2. Rules List Item (Sharp & Clean)
+const RuleItem = ({ rule, index }) => (
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.1 }}
+    viewport={{ once: true }}
+    className="flex items-start gap-4 p-4 mb-3 rounded border border-white/5 bg-white/5 hover:bg-white/10 hover:border-neon-magenta/50 transition-all duration-300"
+  >
+    <div className="mt-1">
+      <Check className="w-5 h-5 text-neon-magenta" />
+    </div>
+    <p className="font-rajdhani text-lg text-gray-300">
+      {rule}
+    </p>
+  </motion.div>
+);
+
+// 3. FAQ Accordion (High Contrast)
+const FAQItem = ({ question, answer, isOpen, onClick }) => (
+  <div className="mb-4">
     <button
       onClick={onClick}
-      className="w-full flex items-center justify-between p-5 text-left"
+      className={`w-full flex items-center justify-between p-6 rounded-lg border transition-all duration-300 ${
+        isOpen 
+        ? "bg-neon-cyan/10 border-neon-cyan shadow-[0_0_15px_rgba(0,240,255,0.15)]" 
+        : "bg-card/30 border-white/10 hover:border-white/30"
+      }`}
     >
-      <span className="font-orbitron font-semibold text-foreground pr-4">
+      <span className={`font-orbitron text-lg font-bold text-left ${isOpen ? "text-neon-cyan" : "text-white"}`}>
         {question}
       </span>
-      <motion.div
-        animate={{ rotate: isOpen ? 180 : 0 }}
-        transition={{ duration: 0.2 }}
-      >
-        <ChevronDown className={`w-5 h-5 flex-shrink-0 ${isOpen ? "text-neon-cyan" : "text-muted-foreground"}`} />
-      </motion.div>
+      <div className={`ml-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
+        {isOpen ? (
+          <Minus className="w-5 h-5 text-neon-cyan" />
+        ) : (
+          <Plus className="w-5 h-5 text-white/50" />
+        )}
+      </div>
     </button>
-    
     <AnimatePresence>
       {isOpen && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.3 }}
           className="overflow-hidden"
         >
-          <div className="px-5 pb-5 pt-0">
-            <p className="font-rajdhani text-muted-foreground">
+          <div className="p-6 pt-2 border-l-2 border-neon-cyan/30 ml-4 mt-2">
+            <p className="font-rajdhani text-lg text-gray-300 leading-relaxed">
               {answer}
             </p>
           </div>
         </motion.div>
       )}
     </AnimatePresence>
-  </motion.div>
+  </div>
 );
 
 const FAQ = () => {
@@ -96,108 +140,89 @@ const FAQ = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="faq" className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-cyber-grid bg-grid-40 opacity-10" />
+    <section id="faq" className="py-24 relative overflow-hidden bg-background">
+      {/* Background Ambience */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-neon-cyan/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-neon-magenta/5 blur-[120px] pointer-events-none" />
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Evaluation Criteria Section */}
+        
+        {/* --- SECTION 1: EVALUATION (Centered Grid) --- */}
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto mb-20"
+          className="mb-20 text-center"
         >
-          <div className="text-center mb-8">
-           
-            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-sunset">
-              EVALUATION CRITERIA
-            </h2>
-          </div>
-
-          <div className="grid gap-3">
-            {evaluationCriteria.map((criteria, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="flex items-center gap-3 p-4 border border-neon-magenta/30 rounded-lg bg-card/30 backdrop-blur-sm"
-              >
-                <CheckCircle className="w-5 h-5 text-neon-magenta flex-shrink-0" />
-                <span className="font-rajdhani text-foreground">{criteria}</span>
-              </motion.div>
+          <h2 className="font-orbitron text-3xl md:text-5xl font-bold mb-12">
+            <span className="gradient-text-cyber">EVALUATION METRICS</span>
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+            {evaluationCriteria.map((item, index) => (
+              <CriteriaCard key={index} item={item} index={index} />
             ))}
           </div>
         </motion.div>
 
-        {/* Rules Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-3xl mx-auto mb-20"
-        >
-          <div className="text-center mb-8">
-         
-            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 text-accent text-glow-yellow">
-              RULES & GUIDELINES
-            </h2>
-          </div>
 
-          <div className="p-6 border border-accent/30 rounded-lg bg-card/30 backdrop-blur-sm">
-            <ol className="space-y-4">
+        {/* --- SECTION 2: RULES (Clean Panel) --- */}
+        <div className="grid md:grid-cols-12 gap-8 md:gap-16 mb-24 items-start">
+           
+           {/* Left: Title */}
+           <motion.div 
+             initial={{ opacity: 0, x: -30 }}
+             whileInView={{ opacity: 1, x: 0 }}
+             viewport={{ once: true }}
+             className="md:col-span-4"
+           >
+              <h2 className="font-orbitron text-3xl md:text-4xl font-bold text-white mb-6">
+                RULES & <br/><span className="text-neon-magenta">GUIDELINES</span>
+              </h2>
+              <div className="p-4 rounded border border-yellow-500/30 bg-yellow-500/5 flex items-start gap-3">
+                 <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
+                 <p className="font-rajdhani text-sm text-yellow-200/80">
+                   Violation of any rule may lead to immediate disqualification. Play fair, code hard.
+                 </p>
+              </div>
+           </motion.div>
+
+           {/* Right: List */}
+           <div className="md:col-span-8">
               {rules.map((rule, index) => (
-                <motion.li
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
-                  className="flex items-start gap-4"
-                >
-                  <span className="font-orbitron font-bold text-accent text-lg min-w-[2rem]">
-                    {(index + 1).toString().padStart(2, "0")}
-                  </span>
-                  <span className="font-rajdhani text-foreground">{rule}</span>
-                </motion.li>
+                <RuleItem key={index} rule={rule} index={index} />
               ))}
-            </ol>
-          </div>
-        </motion.div>
+           </div>
+        </div>
 
-        {/* FAQ Section */}
+
+        {/* --- SECTION 3: FAQ (Centered) --- */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mb-12"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto"
         >
-         
-          <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-4 gradient-text-cyber">
-            FREQUENTLY ASKED QUESTIONS
-          </h2>
-          <p className="font-rajdhani text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know about ATHERA Innovation Sprint.
-          </p>
-        </motion.div>
+          <div className="text-center mb-10">
+            <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-2 text-white">
+              FAQ
+            </h2>
+            <p className="font-rajdhani text-muted-foreground">Common queries answered</p>
+          </div>
 
-        <div className="max-w-3xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: 0.5 + index * 0.05 }}
-            >
+          <div className="space-y-2">
+            {faqs.map((faq, index) => (
               <FAQItem
+                key={index}
                 question={faq.question}
                 answer={faq.answer}
                 isOpen={openIndex === index}
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               />
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </motion.div>
+
       </div>
     </section>
   );

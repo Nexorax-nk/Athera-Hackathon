@@ -3,7 +3,6 @@ import {
   motion,
   useScroll,
   useTransform,
-  useMotionValueEvent,
 } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
 import heroVideo from "@/assets/herobg1.mp4";
@@ -23,10 +22,10 @@ const CountdownUnit = ({ value, label }) => (
   </div>
 );
 
-// Animated title - original glitch restored, but main title uses pink-violet-purple gradient
+// Animated title - Updated with Blue/Purple Gradient Glow
 const AnimatedTitle = () => {
   const titleParts = [
-    { text: "HACKWITHMAGNUS", className: "gradient-text-pinkviolet" }, // Only this gets the new gradient
+    { text: "HACKWITHMAGNUS", className: "text-white" },
   ];
 
   const containerVariants = {
@@ -34,7 +33,7 @@ const AnimatedTitle = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.03,
+        staggerChildren: 0.05,
         delayChildren: 0.5,
       },
     },
@@ -43,7 +42,7 @@ const AnimatedTitle = () => {
   const letterVariants = {
     hidden: {
       opacity: 0,
-      y: 20,
+      y: 50,
       rotateX: -90,
     },
     visible: {
@@ -52,26 +51,33 @@ const AnimatedTitle = () => {
       rotateX: 0,
       transition: {
         type: "spring",
-        damping: 12,
-        stiffness: 200,
+        damping: 10,
+        stiffness: 100,
       },
     },
   };
 
-  const glitchVariants = {
+  // NEW: Blue-Purple Gradient Glow
+  const glowVariants = {
     idle: {
       textShadow: [
-        "0 0 10px hsl(var(--neon-cyan)), 0 0 20px hsl(var(--neon-cyan))",
-        "2px 0 hsl(var(--neon-magenta)), -2px 0 hsl(var(--neon-cyan))",
-        "0 0 10px hsl(var(--neon-cyan)), 0 0 20px hsl(var(--neon-cyan))",
+        "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.6)",
+        "0 0 15px rgba(0, 255, 255, 1), 0 0 30px rgba(138, 43, 226, 0.8), 0 0 40px rgba(0, 255, 255, 0.4)",
+        "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.6)",
       ],
-      x: [0, -1, 1, 0],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
     },
   };
 
   return (
     <motion.h1
-      className="font-orbitron font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight"
+      // FIXED: Added flex, items-center, and justify-center to force true centering
+      // Added mr-[-0.1em] to visually balance the tracking-widest (optical centering)
+      className="flex flex-col items-center justify-center w-full font-orbitron font-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight tracking-widest z-20 relative mr-[-0.1em]"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -79,20 +85,15 @@ const AnimatedTitle = () => {
       {titleParts.map((part, partIndex) => (
         <motion.span
           key={partIndex}
-          className={`${part.className} inline-block`}
+          className={`${part.className} inline-block text-center`}
           animate="idle"
-          variants={glitchVariants}
-          transition={{
-            duration: 0.5,
-            repeat: Infinity,
-            repeatDelay: 3 + partIndex,
-          }}
+          variants={glowVariants}
         >
           {part.text.split("").map((letter, letterIndex) => (
             <motion.span
               key={`${partIndex}-${letterIndex}`}
               variants={letterVariants}
-              className="inline-block"
+              className="inline-block hover:text-neon-cyan transition-colors duration-300"
             >
               {letter === " " ? "\u00A0" : letter}
             </motion.span>
@@ -100,7 +101,7 @@ const AnimatedTitle = () => {
         </motion.span>
       ))}
       <motion.span
-        className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold"
+        className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold tracking-normal"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
@@ -119,8 +120,6 @@ const Hero = () => {
     seconds: 0,
   });
 
-  const [pointerEvents, setPointerEvents] = useState("auto");
-
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -131,15 +130,13 @@ const Hero = () => {
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
   const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
-  const contentY = useTransform(scrollYProgress, [0, 0.2], ["0%", "10%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  // FIXED: Reduced movement from 20% to 5% so content stays higher up when scrolling
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
+  
+  // FIXED: Removed buttonOpacity transform. Buttons now stay solid.
 
   const orbLeftX = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);
   const orbRightX = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
-  useMotionValueEvent(contentOpacity, "change", (latest) => {
-    setPointerEvents(latest < 0.9 ? "none" : "auto");
-  });
 
   useEffect(() => {
     const targetDate = new Date("2026-02-02T00:00:00").getTime();
@@ -246,21 +243,21 @@ const Hero = () => {
         className="container mx-auto px-4 text-center relative z-10"
         style={{
           y: contentY,
-          opacity: contentOpacity,
-          pointerEvents,
         }}
       >
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
+          // FIXED: Added pb-10 to ensure padding at the bottom so buttons don't hit edge
+          className="flex flex-col items-center pb-10" 
         >
-          {/* Date badge */}
+          {/* Date badge - FIXED: Reduced mt-16 to mt-4 to pull everything up */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 mt-16 mb-8 border border-neon-cyan/30 rounded-full bg-background/50 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 mt-4 mb-8 border border-neon-cyan/30 rounded-full bg-background/50 backdrop-blur-sm"
           >
             <Calendar className="w-4 h-4 text-neon-cyan" />
             <span className="font-mono text-sm text-foreground/80">
@@ -323,7 +320,7 @@ const Hero = () => {
             <CountdownUnit value={timeLeft.seconds} label="Seconds" />
           </motion.div>
 
-          {/* CTAs */}
+          {/* CTAs - FIXED: Removed style={{ opacity }} so they stay visible */}
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
             initial={{ opacity: 0, y: 20 }}
