@@ -10,7 +10,6 @@ import heroVideo from "@/assets/herobg1.mp4";
 const CountdownUnit = ({ value, label }) => (
   <div className="flex flex-col items-center">
     <div className="relative">
-      {/* MOBILE FIX: Changed w-16 h-16 to w-12 h-12 for small screens, scaling up at sm and md breakpoints */}
       <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 flex items-center justify-center border border-neon-cyan/50 bg-background/50 backdrop-blur-sm box-glow-cyan rounded">
         <span className="font-orbitron text-lg sm:text-2xl md:text-4xl font-bold text-primary text-glow-cyan">
           {value.toString().padStart(2, "0")}
@@ -58,7 +57,6 @@ const AnimatedTitle = () => {
     },
   };
 
-  // NEW: Blue-Purple Gradient Glow
   const glowVariants = {
     idle: {
       textShadow: [
@@ -76,7 +74,6 @@ const AnimatedTitle = () => {
 
   return (
     <motion.h1
-      // MOBILE FIX: Adjusted text size to start at text-2xl for small mobile screens
       className="flex flex-col items-center justify-center w-full font-orbitron font-black text-2xl xs:text-3xl sm:text-4xl md:text-6xl lg:text-7xl mb-4 leading-tight tracking-widest z-20 relative mr-[-0.1em]"
       variants={containerVariants}
       initial="hidden"
@@ -101,7 +98,6 @@ const AnimatedTitle = () => {
         </motion.span>
       ))}
       <motion.span
-        // MOBILE FIX: Adjusted text size for the year
         className="block text-xl sm:text-3xl md:text-4xl lg:text-5xl mt-2 text-foreground font-bold tracking-normal"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -166,7 +162,7 @@ const Hero = () => {
     <section
       ref={sectionRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20 lg:pt-24" // ← FIXED: Added padding for navbar
       style={{ perspective: "1000px" }}
     >
       {/* Background video with parallax */}
@@ -247,7 +243,6 @@ const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          // MOBILE FIX: Added px-2 to prevent side collision on very small screens
           className="flex flex-col items-center pb-10 px-2" 
         >
           {/* Date badge */}
@@ -255,7 +250,6 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            // MOBILE FIX: flex-col for small screens, row for larger. Reduced margins.
             className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 px-4 py-2 mt-4 mb-6 sm:mb-8 border border-neon-cyan/30 rounded-2xl sm:rounded-full bg-background/50 backdrop-blur-sm"
           >
             <div className="flex items-center gap-2">
@@ -312,7 +306,7 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Countdown - MOBILE FIX: Adjusted gap */}
+          {/* Countdown */}
           <motion.div
             className="flex justify-center gap-3 sm:gap-4 md:gap-8 mb-8 sm:mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -325,7 +319,7 @@ const Hero = () => {
             <CountdownUnit value={timeLeft.seconds} label="Seconds" />
           </motion.div>
 
-          {/* CTAs - MOBILE FIX: Full width buttons on mobile, row on desktop */}
+          {/* CTAs */}
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto px-6 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
@@ -351,7 +345,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator - MOBILE FIX: Hide on very small screens if needed, otherwise keep */}
+        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
