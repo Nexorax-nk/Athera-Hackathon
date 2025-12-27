@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -47,7 +47,7 @@
     --gradient-cyber: linear-gradient(135deg, hsl(var(--neon-cyan)) 0%, hsl(var(--neon-magenta)) 100%);
     --gradient-sunset: linear-gradient(180deg, hsl(var(--neon-magenta)) 0%, hsl(var(--neon-yellow)) 100%);
     
-    /* NEW: Pink → Violet → Purple gradient (exactly what you asked for) */
+    /* Pink → Violet → Purple gradient */
     --gradient-pinkviolet: linear-gradient(90deg, 
       #ff006e 0%,    /* Hot pink */
       #c23bff 30%,   /* Bright violet */
@@ -55,9 +55,7 @@
       #5b3bff 100%   /* Deep indigo-purple */
     );
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
@@ -65,15 +63,35 @@
   body {
     @apply bg-background text-foreground font-rajdhani;
     font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: 0.01em;
   }
 
+  /* === Fixed heading font - using arbitrary value instead of missing utility === */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-orbitron;
+    font-family: "Rubik Glitch", "Orbitron", system-ui, sans-serif;
+    @apply tracking-wider;
+  }
+
+  /* Tech/code/mono elements */
+  code, pre, .terminal, .stat, .timer, 
+  button[data-tech], .btn-tech, .code-block,
+  input::placeholder, textarea::placeholder {
+    font-family: "JetBrains Mono", "Share Tech Mono", monospace;
+    @apply tracking-tight;
+  }
+
+  /* Optional: extra futuristic titles using Orbitron */
+  .title-orbitron {
+    font-family: "Orbitron", "Rubik Glitch", system-ui, sans-serif;
+    @apply font-black tracking-widest;
   }
 }
 
+/* ────────────────────────────────────────────────────────────────────────────── */
+/*                                   UTILITIES                                   */
+/* ────────────────────────────────────────────────────────────────────────────── */
+
 @layer utilities {
-  /* NEW: Pink-violet-purple gradient text class */
   .gradient-text-pinkviolet {
     background: var(--gradient-pinkviolet);
     -webkit-background-clip: text;
@@ -81,7 +99,6 @@
     background-clip: text;
   }
 
-  /* Optional: Add subtle glow for extra pop (use class gradient-text-pinkviolet-glow if you want it) */
   .gradient-text-pinkviolet-glow {
     @apply gradient-text-pinkviolet;
     text-shadow: 
@@ -89,6 +106,20 @@
       0 0 20px #c23bff60,
       0 0 40px #8b5cf640,
       0 0 80px #5b3bff30;
+  }
+
+  .gradient-text-cyber {
+    background: var(--gradient-cyber);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-sunset {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .text-glow-cyan {
@@ -102,7 +133,7 @@
   .text-glow-yellow {
     text-shadow: 0 0 10px hsl(var(--neon-yellow)), 0 0 20px hsl(var(--neon-yellow)), 0 0 40px hsl(var(--neon-yellow) / 0.5);
   }
-  
+
   .box-glow-cyan {
     box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.5), 0 0 30px hsl(var(--neon-cyan) / 0.3), inset 0 0 15px hsl(var(--neon-cyan) / 0.1);
   }
@@ -110,7 +141,7 @@
   .box-glow-magenta {
     box-shadow: 0 0 15px hsl(var(--neon-magenta) / 0.5), 0 0 30px hsl(var(--neon-magenta) / 0.3), inset 0 0 15px hsl(var(--neon-magenta) / 0.1);
   }
-  
+
   .border-glow-cyan {
     border-color: hsl(var(--neon-cyan));
     box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5);
@@ -120,21 +151,8 @@
     border-color: hsl(var(--neon-magenta));
     box-shadow: 0 0 10px hsl(var(--neon-magenta) / 0.5);
   }
-  
-  .gradient-text-cyber {
-    background: linear-gradient(135deg, hsl(var(--neon-cyan)) 0%, hsl(var(--neon-magenta)) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  .gradient-text-sunset {
-    background: linear-gradient(135deg, hsl(var(--neon-magenta)) 0%, hsl(var(--neon-yellow)) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
+
+  /* Scanline & noise effects */
   .scanline {
     position: relative;
     overflow: hidden;
@@ -143,10 +161,7 @@
   .scanline::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: repeating-linear-gradient(
       0deg,
       transparent,
@@ -189,16 +204,13 @@
   background: hsl(var(--neon-cyan));
 }
 
-/* Animations */
+/* ────────────────────────────────────────────────────────────────────────────── */
+/*                                  ANIMATIONS                                   */
+/* ────────────────────────────────────────────────────────────────────────────── */
+
 @keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 0.8;
-    filter: brightness(1.2);
-  }
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.8; filter: brightness(1.2); }
 }
 
 @keyframes flicker {
@@ -233,79 +245,27 @@
 
 @keyframes glitch-rgb {
   0%, 100% {
-    text-shadow: 
-      -2px 0 hsl(var(--neon-cyan)),
-      2px 0 hsl(var(--neon-magenta));
+    text-shadow: -2px 0 hsl(var(--neon-cyan)), 2px 0 hsl(var(--neon-magenta));
   }
   25% {
-    text-shadow: 
-      2px 0 hsl(var(--neon-cyan)),
-      -2px 0 hsl(var(--neon-magenta));
+    text-shadow: 2px 0 hsl(var(--neon-cyan)), -2px 0 hsl(var(--neon-magenta));
   }
   50% {
-    text-shadow: 
-      -1px 2px hsl(var(--neon-cyan)),
-      1px -2px hsl(var(--neon-magenta));
+    text-shadow: -1px 2px hsl(var(--neon-cyan)), 1px -2px hsl(var(--neon-magenta));
   }
   75% {
-    text-shadow: 
-      1px -1px hsl(var(--neon-cyan)),
-      -1px 1px hsl(var(--neon-magenta));
+    text-shadow: 1px -1px hsl(var(--neon-cyan)), -1px 1px hsl(var(--neon-magenta));
   }
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes scan-line {
-  0% { top: -100%; }
-  100% { top: 100%; }
-}
-
-@keyframes glitch-text {
-  0%, 100% {
-    text-shadow: 2px 0 hsl(var(--neon-cyan)), -2px 0 hsl(var(--neon-magenta));
-    opacity: 1;
-  }
-  20% {
-    text-shadow: -2px 0 hsl(var(--neon-cyan)), 2px 0 hsl(var(--neon-magenta));
-    opacity: 0.9;
-  }
-  40% {
-    text-shadow: 2px 1px hsl(var(--neon-cyan)), -2px -1px hsl(var(--neon-magenta));
-    opacity: 1;
-  }
-  60% {
-    text-shadow: -1px -1px hsl(var(--neon-cyan)), 1px 1px hsl(var(--neon-magenta));
-    opacity: 0.95;
-  }
-  80% {
-    text-shadow: 1px 0 hsl(var(--neon-cyan)), -1px 0 hsl(var(--neon-magenta));
-    opacity: 1;
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-.animate-flicker {
-  animation: flicker 4s infinite;
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-glitch {
-  animation: glitch 0.3s ease-in-out infinite;
-}
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-flicker { animation: flicker 4s infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-glitch { animation: glitch 0.3s ease-in-out infinite; }
 
 .glitch-text {
   position: relative;
-  animation: glitch-skew 0.5s ease-in-out;
+  animation: glitch-skew 1s infinite;
 }
 
 .glitch-text::before,
@@ -316,56 +276,21 @@
   left: 0;
   width: 100%;
   height: 100%;
+  opacity: 0.85;
 }
 
 .glitch-text::before {
-  animation: glitch-rgb 0.3s ease-in-out;
+  animation: glitch-rgb 2s infinite;
   clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  left: 2px;
+  text-shadow: -2px 0 hsl(var(--neon-cyan));
 }
 
 .glitch-text::after {
-  animation: glitch-rgb 0.3s ease-in-out reverse;
+  animation: glitch-rgb 2s infinite reverse;
   clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-}
-
-.hover-glitch {
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.hover-glitch:hover {
-  animation: glitch-rgb 0.5s ease-in-out;
-}
-
-.hover-glitch::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    hsl(var(--neon-cyan) / 0.1) 50%,
-    transparent 100%
-  );
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-.hover-glitch:hover::before {
-  transform: translateX(100%);
-}
-
-@keyframes timeline-pulse {
-  0%, 100% { 
-    box-shadow: 0 0 5px hsl(var(--neon-cyan) / 0.5);
-  }
-  50% { 
-    box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.8), 0 0 40px hsl(var(--neon-cyan) / 0.4);
-  }
-}
-
-.timeline-line {
-  animation: timeline-pulse 2s ease-in-out infinite;
+  left: -2px;
+  text-shadow: 2px 0 hsl(var(--neon-magenta));
 }
 
 ::selection {

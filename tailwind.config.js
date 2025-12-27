@@ -1,10 +1,11 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
   content: [
     "./pages/**/*.{js,jsx}",
     "./components/**/*.{js,jsx}",
     "./app/**/*.{js,jsx}",
-    "./src/**/*.{js,jsx}",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: "",
   theme: {
@@ -17,10 +18,22 @@ module.exports = {
     },
     extend: {
       fontFamily: {
+        // Main cyberpunk glitch heading font - recommended for titles in 2025
+        "rubik-glitch": ['"Rubik Glitch"', "system-ui", "sans-serif"],
+
+        // Retro-futuristic geometric headings (good alternative/secondary)
         orbitron: ["Orbitron", "sans-serif"],
+
+        // Sharp, condensed cyberpunk body/UI text (very good choice)
         rajdhani: ["Rajdhani", "sans-serif"],
+
+        // Modern, clean developer monospace (recommended for code & tech elements)
+        "jetbrains-mono": ['"JetBrains Mono"', "monospace"],
+
+        // Classic retro terminal monospace (alternative option)
         mono: ["Share Tech Mono", "monospace"],
       },
+
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -63,11 +76,13 @@ module.exports = {
           blue: "hsl(var(--neon-blue))",
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -91,7 +106,10 @@ module.exports = {
         },
         "glow-pulse": {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--neon-cyan) / 0.5)" },
-          "50%": { boxShadow: "0 0 40px hsl(var(--neon-cyan) / 0.8), 0 0 60px hsl(var(--neon-cyan) / 0.4)" },
+          "50%": {
+            boxShadow:
+              "0 0 40px hsl(var(--neon-cyan) / 0.8), 0 0 60px hsl(var(--neon-cyan) / 0.4)",
+          },
         },
         "border-flow": {
           "0%": { backgroundPosition: "0% 50%" },
@@ -99,6 +117,7 @@ module.exports = {
           "100%": { backgroundPosition: "0% 50%" },
         },
       },
+
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
@@ -108,10 +127,13 @@ module.exports = {
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
         "border-flow": "border-flow 3s linear infinite",
       },
+
       backgroundImage: {
-        "cyber-grid": "linear-gradient(hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px)",
+        "cyber-grid":
+          "linear-gradient(hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--neon-cyan) / 0.1) 1px, transparent 1px)",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
+
       backgroundSize: {
         "grid-40": "40px 40px",
       },
