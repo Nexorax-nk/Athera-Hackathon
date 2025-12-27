@@ -1,0 +1,9 @@
+/* src/styles/CyberpunkTitleFont.css */
+
+@font-face {
+  font-family: 'CyberpunkTitle';
+  src: url('../assets/fonts/Cyberpunk.ttf') format('truetype');
+  font-weight: normal;        /* Use 700 if your font is bold */
+  font-style: normal;
+  font-display: swap;         /* Ensures text shows while font loads */
+}
