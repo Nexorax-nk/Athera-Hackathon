@@ -8,7 +8,7 @@ const tracks = [
   {
     id: "web3",
     icon: Globe,
-    title: "WEB3 & BLOCKCHAIN",
+    title: "AI&ML",
     description: "Build decentralized applications and smart contracts.",
     color: "cyan", 
     position: "top-left",
@@ -40,7 +40,7 @@ const tracks = [
   {
     id: "green",
     icon: Leaf,
-    title: "GREENTECH",
+    title: "SUSTAINABLE DEVELOPMENT GOALS",
     description: "Address environmental challenges with tech.",
     color: "green", 
     position: "bottom-right",
