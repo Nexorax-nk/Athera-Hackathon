@@ -6,6 +6,7 @@ import {
 } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
 import heroVideo from "@/assets/herobg1.mp4";
+import heroLogo from "@/assets/logo.png";
 
 /* ======================= COUNTDOWN UNIT ======================= */
 const CountdownUnit = ({ value, label }) => (
@@ -20,49 +21,6 @@ const CountdownUnit = ({ value, label }) => (
     </span>
   </div>
 );
-
-/* ======================= TITLE ======================= */
-const AnimatedTitle = () => {
-  const container = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05, delayChildren: 0.5 },
-    },
-  };
-
-  const letter = {
-    hidden: { opacity: 0, y: 40, rotateX: -90 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: { type: "spring", stiffness: 100, damping: 12 },
-    },
-  };
-
-  return (
-    <motion.h1
-      variants={container}
-      initial="hidden"
-      animate="visible"
-      className="font-orbitron font-black text-3xl sm:text-5xl md:text-7xl tracking-widest text-white"
-    >
-      {"HACKWITHMAGNUS".split("").map((char, i) => (
-        <motion.span
-          key={i}
-          variants={letter}
-          className="inline-block hover:text-neon-cyan transition-colors"
-        >
-          {char}
-        </motion.span>
-      ))}
-      <div className="text-xl sm:text-3xl md:text-4xl mt-2 font-bold">
-        2026
-      </div>
-    </motion.h1>
-  );
-};
 
 /* ======================= HERO ======================= */
 const Hero = () => {
@@ -148,17 +106,35 @@ const Hero = () => {
           </div>
         </div>
 
-        <AnimatedTitle />
+        {/* 🔥 BIGGER LOGO — NO QUALITY LOSS */}
+        <motion.img
+          src={heroLogo}
+          alt="HackWithMagnus 2026"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9 }}
+          className="
+            mx-auto
+            max-w-none
+            w-[300px]
+            sm:w-[420px]
+            md:w-[600px]
+            lg:w-[720px]
+            xl:w-[820px]
+            drop-shadow-[0_0_40px_rgba(0,255,255,0.4)]
+            mb-6
+          "
+        />
 
-        <p className="font-rajdhani text-lg sm:text-2xl text-neon-cyan font-semibold mt-4">
+        <p className="font-rajdhani text-lg sm:text-2xl text-neon-cyan font-semibold mt-2">
           Ideate • Build • Innovate • Impact
         </p>
 
-        {/* ✅ FIXED PILLS WITH GAP */}
+        {/* Pills */}
         <div className="flex justify-center gap-4 sm:gap-6 mt-8 flex-wrap">
           <div className="flex items-center gap-2 px-4 py-2 border border-neon-magenta/30 rounded-full bg-background/40 backdrop-blur-sm">
             <Clock className="w-4 h-4 text-neon-magenta" />
-            <span className="font-mono text-xs sm:text-sm">8 HOURS</span>
+            <span className="font-mono text-xs sm:text-sm">6 HOURS</span>
           </div>
 
           <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/40 backdrop-blur-sm">

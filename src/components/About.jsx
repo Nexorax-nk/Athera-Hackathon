@@ -154,7 +154,7 @@ const About = () => {
           />
           <StatItem
             icon={Clock}
-            value="08 Hours"
+            value="06 Hours"
             label="Duration"
             color="neon-magenta"
             delay={0.2}
