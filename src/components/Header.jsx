@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react"; // Import Menu/X icons
-import GlitchText from "./GlitchText"; 
+import { Menu, X } from "lucide-react";
+import GlitchText from "./GlitchText";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -12,144 +12,127 @@ const navLinks = [
   { name: "FAQ", href: "#faq" },
 ];
 
-const Header = () => {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
     <>
+      {/* ================= HEADER ================= */}
       <motion.header
-        initial={{ y: -100 }}
+        initial={{ y: -80 }}
         animate={{ y: 0 }}
-        // REMOVED 'hidden md:block' so it appears on mobile
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-          isScrolled 
-            ? "bg-black border-b border-white/10 py-3 shadow-lg" 
-            : "bg-transparent py-4 md:py-6"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-black/80 backdrop-blur border-b border-white/10 py-3"
+            : "bg-transparent py-5"
         }`}
       >
-        <div className="container mx-auto px-6 relative z-10 flex items-center justify-between">
-          
-          {/* ================= LEFT: LOGO ================= */}
-          <a href="#home" className="group hover:scale-105 transition-transform duration-300 relative z-50">
-            <span 
-              // Adjusted text size: text-lg for mobile, text-2xl for desktop
-              className="font-orbitron font-bold text-lg md:text-2xl tracking-wider text-white transition-all duration-300"
-              style={{ 
-                textShadow: "0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.4)" 
+        <div className="container mx-auto px-6 flex items-center justify-between">
+
+          {/* LOGO */}
+          <a href="#home" className="group">
+            <span
+              className="font-cyber font-bold text-lg md:text-2xl tracking-[0.18em] text-white"
+              style={{
+                textShadow:
+                  "0 0 14px rgba(0,240,255,0.6), 0 0 30px rgba(0,240,255,0.35)",
               }}
             >
               <GlitchText>ATHERA X MAGNUS</GlitchText>
             </span>
           </a>
 
-          {/* ================= CENTER: NAV LINKS (HIDDEN ON MOBILE) ================= */}
-          <nav className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-             <div className="flex items-center gap-1">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="relative px-5 py-2 rounded-full transition-all duration-300 hover:bg-white/5 group"
-                  >
-                    <span className="font-rajdhani font-semibold text-sm text-gray-300 group-hover:text-white transition-colors relative z-10">
-                      {link.name}
-                    </span>
-                    <span className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-neon-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 box-glow-cyan" />
-                  </a>
-                ))}
-             </div>
+          {/* DESKTOP NAV */}
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                className="relative px-4 py-2 rounded-full hover:bg-white/5 transition group"
+              >
+                <span className="font-sci text-sm font-medium tracking-wide text-gray-300 group-hover:text-white transition">
+                  {link.name}
+                </span>
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-neon-cyan opacity-0 group-hover:opacity-100 transition" />
+              </a>
+            ))}
           </nav>
 
-          {/* ================= RIGHT SECTION ================= */}
+          {/* RIGHT */}
           <div className="flex items-center gap-4">
-            
-            {/* REGISTER BUTTON (HIDDEN ON MOBILE) */}
-            <motion.a
+            <a
               href="#register"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`
-                hidden md:flex items-center gap-2 px-6 py-2 rounded-lg 
-                font-orbitron font-bold text-sm tracking-wide transition-all duration-300
-                ${isScrolled 
-                  ? "bg-neon-cyan text-black shadow-[0_0_15px_rgba(0,240,255,0.4)]" 
-                  : "bg-neon-cyan/10 border border-neon-cyan/50 text-neon-cyan hover:bg-neon-cyan hover:text-black hover:box-glow-cyan"}
-              `}
+              className="
+                hidden md:flex items-center px-6 py-2
+                font-cyber text-sm tracking-widest font-semibold
+                text-neon-cyan border border-neon-cyan/40 rounded-lg
+                hover:bg-neon-cyan hover:text-black
+                transition shadow-[0_0_15px_rgba(0,240,255,0.35)]
+              "
             >
               REGISTER
-            </motion.a>
+            </a>
 
-            {/* SIDEBAR ICON (VISIBLE ONLY ON MOBILE) */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden p-2 text-white hover:text-neon-cyan transition-colors"
+              className="md:hidden text-white hover:text-neon-cyan transition"
             >
-              <Menu size={24} />
+              <Menu size={26} />
             </button>
           </div>
         </div>
       </motion.header>
 
-      {/* ================= MOBILE SIDEBAR OVERLAY ================= */}
+      {/* ================= MOBILE MENU ================= */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 260, damping: 28 }}
             className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl md:hidden"
           >
-            {/* Close Button */}
-            <div className="absolute top-5 right-6 z-50">
-              <button
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-white hover:text-red-500 transition-colors border border-white/10 rounded-full bg-white/5"
-              >
-                <X size={24} />
-              </button>
-            </div>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute top-6 right-6 text-white hover:text-red-500 transition"
+            >
+              <X size={28} />
+            </button>
 
-            {/* Mobile Nav Links */}
-            <nav className="flex flex-col items-center justify-center h-full gap-8">
-              {navLinks.map((link, index) => (
+            <nav className="flex flex-col items-center justify-center h-full gap-10">
+              {navLinks.map((link, i) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + index * 0.1 }}
+                  transition={{ delay: i * 0.08 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="font-orbitron text-2xl text-gray-300 hover:text-white transition-colors"
+                  className="font-cyber text-2xl tracking-wider text-gray-300 hover:text-white transition"
                 >
-                  <span className="text-neon-cyan mr-2 text-lg opacity-50">/</span>
+                  <span className="text-neon-cyan opacity-50 mr-2">/</span>
                   {link.name}
                 </motion.a>
               ))}
 
-              <motion.a
+              <a
                 href="#register"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="mt-8 px-10 py-4 bg-neon-cyan text-black font-bold font-orbitron rounded-lg shadow-[0_0_20px_rgba(0,240,255,0.4)]"
+                className="mt-6 px-10 py-4 bg-neon-cyan text-black font-cyber tracking-widest rounded-lg shadow-[0_0_25px_rgba(0,240,255,0.45)]"
               >
                 REGISTER NOW
-              </motion.a>
+              </a>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
     </>
   );
-};
-
-export default Header;
+}
