@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { Globe, Coins, Heart, Leaf, Cpu, Database, Lock, ShieldCheck, Activity, Zap, Code2, Terminal } from "lucide-react";
+import { Globe, Coins, Heart, Leaf, Cpu, Database, ShieldCheck, Activity, Zap, Link2, Aperture, Command } from "lucide-react";
 
 // --- CONFIGURATION ---
 const tracks = [
@@ -11,7 +11,6 @@ const tracks = [
     subtitle: "NEURAL NETWORKS",
     desc: "Immersive learning algorithms & cognitive mapping.",
     color: "#00f0ff", // Cyan
-    accent: "rgba(0, 240, 255, 0.2)",
     position: "top-left",
   },
   {
@@ -21,7 +20,6 @@ const tracks = [
     subtitle: "QUANTUM LEDGERS",
     desc: "Decentralized consensus & zero-knowledge proofs.",
     color: "#ffd700", // Gold
-    accent: "rgba(255, 215, 0, 0.2)",
     position: "top-right",
   },
   {
@@ -31,7 +29,6 @@ const tracks = [
     subtitle: "BIO-SYNTHETICS",
     desc: "AI diagnostics & nano-bot cellular repair.",
     color: "#ff0055", // Red
-    accent: "rgba(255, 0, 85, 0.2)",
     position: "bottom-left",
   },
   {
@@ -41,7 +38,6 @@ const tracks = [
     subtitle: "ECO-GRIDS",
     desc: "Smart energy harvesting & terraforming logic.",
     color: "#00ff9d", // Green
-    accent: "rgba(0, 255, 157, 0.2)",
     position: "bottom-right",
   },
 ];
@@ -50,7 +46,7 @@ const tracks = [
 const TiltCard = ({ children, className }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  
+
   const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
   const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
 
@@ -84,297 +80,313 @@ const TiltCard = ({ children, className }) => {
   );
 };
 
-// --- COMPONENT: ADVANCED CIRCUIT LINE ---
-const CircuitLine = ({ position, color }) => {
-  const isLeft = position.includes("left");
-  const isTop = position.includes("top");
+// --- COMPONENT: CONNECTED CIRCUIT LINES (BACKGROUND) ---
+const ConnectedCircuitLines = ({ tracks, containerRef, activeTrack }) => {
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
 
-  // Path Logic: Out from center, bend 90deg, to card
-  const startX = isLeft ? "50%" : "50%";
-  const startY = isTop ? "50%" : "50%";
-  const endX = isLeft ? "5%" : "95%";
-  const endY = isTop ? "10%" : "90%";
-  const midX = isLeft ? "25%" : "75%";
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { width, height } = containerRef.current.getBoundingClientRect();
+        setDimensions({ width, height });
+      }
+    };
 
-  const pathData = `M ${startX} ${startY} H ${midX} V ${endY} H ${endX}`;
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, [containerRef]);
+
+  const getCardPosition = useCallback((trackIndex) => {
+    const { width, height } = dimensions;
+    const track = tracks[trackIndex];
+    const isLeft = track.position.includes("left");
+    const isTop = track.position.includes("top");
+
+    // Dynamic grid positioning logic
+    const cardX = isLeft ? width * 0.15 : width * 0.85;
+    const cardY = isTop ? height * 0.2 : height * 0.8;
+
+    return { x: cardX, y: cardY };
+  }, [tracks, dimensions]);
+
+  // Logic: Variables must be declared BEFORE return
+  const connections = [
+    [0, 1], [2, 3], [0, 2], [1, 3]
+  ];
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 opacity-40 lg:opacity-100">
-      <svg width="100%" height="100%" className="overflow-visible">
+    <div className="absolute inset-0 pointer-events-none z-0">
+      <svg 
+        width="100%" 
+        height="100%" 
+        viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
+        className="w-full h-full overflow-visible"
+      >
         <defs>
-          <linearGradient id={`grad-${position}`} gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor={color} stopOpacity="0" />
-            <stop offset="50%" stopColor={color} stopOpacity="1" />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
-          </linearGradient>
-          <filter id={`glow-${position}`}>
-            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5"/>
+          </pattern>
+          {tracks.map((track) => (
+            <radialGradient key={`grad-${track.id}`} id={`grad-${track.id}`}>
+              <stop offset="0%" stopColor={track.color} stopOpacity="1"/>
+              <stop offset="100%" stopColor={track.color} stopOpacity="0"/>
+            </radialGradient>
+          ))}
         </defs>
 
-        {/* Static Wire */}
-        <path d={pathData} stroke={color} strokeWidth="1" strokeOpacity="0.1" fill="none" />
+        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.3"/>
 
-        {/* Pulsing Data Packet */}
-        <motion.path
-          d={pathData}
-          stroke={`url(#grad-${position})`}
-          strokeWidth="3"
-          fill="none"
-          strokeLinecap="round"
-          filter={`url(#glow-${position})`}
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: [0, 0.3, 0], 
-            pathOffset: [0, 0.8, 1],
-            opacity: [0, 1, 0] 
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: isTop ? 0 : 1.5,
-          }}
-        />
-        
-        {/* Terminal Blip */}
-        <circle cx={isLeft ? "5%" : "95%"} cy={isTop ? "10%" : "90%"} r="2" fill={color}>
-             <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" begin={isTop ? "1.5s" : "3s"} />
-        </circle>
+        {/* TRACK TO CENTER CONNECTIONS */}
+        {tracks.map((track, index) => {
+          const cardPos = getCardPosition(index);
+          const centerX = dimensions.width / 2;
+          const centerY = dimensions.height / 2;
+          
+          const controlX = (centerX + cardPos.x) / 2;
+          const controlY = (centerY + cardPos.y) / 2;
+          
+          const pathData = `M ${cardPos.x} ${cardPos.y} Q ${controlX} ${centerY} ${centerX} ${centerY}`;
+          const isActive = activeTrack === track.id;
+
+          return (
+            <g key={track.id}>
+              {/* Dim base line */}
+              <path
+                d={pathData}
+                stroke={track.color}
+                strokeWidth={isActive ? "3" : "1"}
+                strokeOpacity={isActive ? "0.5" : "0.1"}
+                fill="none"
+                strokeLinecap="round"
+              />
+
+              {/* Active Energy Pulse */}
+              <motion.path
+                d={pathData}
+                stroke={`url(#grad-${track.id})`}
+                strokeWidth={isActive ? "4" : "2"}
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ 
+                  pathLength: [0, 1, 0],
+                  opacity: [0, 1, 0],
+                  pathOffset: [0, 1]
+                }}
+                transition={{
+                  duration: isActive ? 1.5 : 4,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+            </g>
+          );
+        })}
       </svg>
     </div>
   );
 };
 
-// --- COMPONENT: TECH CARD (HOLOGRAM STYLE) ---
-const TechCard = ({ track, index }) => {
+// --- COMPONENT: TECH CARD (UNCHANGED BUT ROBUST) ---
+const TechCard = ({ track, index, onHover }) => {
   const Icon = track.icon;
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="relative w-full max-w-sm perspective-1000 group">
-      {/* Label Connecting Line (Decor) */}
-      <div className={`absolute top-1/2 w-8 h-[1px] bg-gradient-to-r from-transparent to-${track.color}
-        ${track.position.includes("left") ? "-right-8" : "-left-8 rotate-180"}
-        hidden lg:block transition-all duration-300 opacity-30 group-hover:opacity-100`}
+    <div className="relative w-full max-w-sm perspective-1000 group z-10" onMouseEnter={() => onHover(track.id)}>
+      <motion.div 
+        className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full border-2 border-white/30 z-20"
         style={{ backgroundColor: track.color }}
+        animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 2, repeat: Infinity }}
       />
 
       <TiltCard className="relative w-full">
         <motion.div
-          className="relative overflow-hidden rounded-md bg-[#050505] border border-white/10 p-6 h-[220px] flex flex-col justify-between"
+          className="relative overflow-hidden rounded-xl bg-[#030303]/90 border border-white/10 p-6 h-[240px] flex flex-col justify-between backdrop-blur-md"
           onHoverStart={() => setHovered(true)}
           onHoverEnd={() => setHovered(false)}
-          style={{ boxShadow: hovered ? `0 0 30px -10px ${track.color}` : "none", transition: "box-shadow 0.3s" }}
+          animate={{
+            borderColor: hovered ? track.color : "rgba(255,255,255,0.1)",
+            boxShadow: hovered ? `0 0 30px ${track.color}40` : "none"
+          }}
         >
-          {/* Animated Background Scanline */}
-          <motion.div
-            className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-20"
-            style={{ 
-              background: `linear-gradient(to bottom, transparent, ${track.color}, transparent)`,
-              height: "50%" 
-            }}
-            animate={{ top: ["-100%", "200%"] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          />
-
-          {/* Grid Background Texture */}
-          <div className="absolute inset-0 opacity-10" 
-            style={{ backgroundImage: `radial-gradient(${track.color} 1px, transparent 1px)`, backgroundSize: "20px 20px" }} 
-          />
-
           {/* Header */}
           <div className="flex justify-between items-start z-10">
-            <div className="relative">
-              <div className="absolute inset-0 blur-md opacity-50" style={{ backgroundColor: track.color }} />
-              <div className="relative bg-black/50 border border-white/10 p-2 rounded">
-                <Icon size={24} style={{ color: track.color }} />
-              </div>
-            </div>
-            <div className="text-[9px] font-mono text-gray-500 text-right leading-tight">
-              <div>SYS_ID: 0{index + 1}</div>
-              <div style={{ color: track.color }}>STATUS: ACTIVE</div>
+            <motion.div 
+              className="p-3 rounded-lg bg-white/5 border border-white/10"
+              whileHover={{ scale: 1.1, backgroundColor: `${track.color}20` }}
+            >
+              <Icon size={28} style={{ color: track.color }} />
+            </motion.div>
+            <div className="text-[10px] font-mono text-gray-500 text-right">
+              <div>NODE_0{index + 1}</div>
+              <div style={{ color: track.color }}>ONLINE</div>
             </div>
           </div>
 
-          {/* Content */}
-          <div className="z-10 mt-4 space-y-2">
-            <div>
-              <h3 className="text-2xl font-black text-white font-mono tracking-tighter uppercase group-hover:translate-x-1 transition-transform">
-                {track.title}
-              </h3>
-              <p className="text-[10px] tracking-[0.2em] font-bold text-gray-500 uppercase">
-                {track.subtitle}
-              </p>
-            </div>
-            <p className="text-xs text-gray-400 font-sans border-l-2 border-white/10 pl-3 group-hover:border-[color:var(--c)] group-hover:text-gray-200 transition-all duration-300" style={{ '--c': track.color }}>
-              {track.desc}
-            </p>
+          {/* Text */}
+          <div className="z-10 mt-4">
+            <h3 className="text-2xl font-bold text-white font-mono tracking-tighter">{track.title}</h3>
+            <p className="text-xs font-mono mt-1 mb-2" style={{ color: track.color }}>// {track.subtitle}</p>
+            <p className="text-sm text-gray-400 font-light leading-snug">{track.desc}</p>
           </div>
 
-          {/* Footer Interactive Element */}
-          <div className="flex items-center justify-between mt-2 pt-4 border-t border-white/5">
-            <div className="flex gap-1">
-              {[1,2,3].map(i => (
-                <motion.div 
-                  key={i} 
-                  className="w-1 h-1 rounded-full"
-                  style={{ backgroundColor: track.color }}
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 1, delay: i * 0.2, repeat: Infinity }}
-                />
-              ))}
-            </div>
-            <button className="text-[10px] font-mono text-white/50 hover:text-white group-hover:text-[color:var(--c)] transition-colors flex items-center gap-1" style={{ '--c': track.color }}>
-              INITIALIZE <Zap size={10} />
-            </button>
+          {/* Action */}
+          <div className="flex items-center justify-between pt-4 border-t border-white/5 z-10">
+             <div className="flex gap-1">
+                <div className="w-1 h-1 rounded-full bg-gray-600" />
+                <div className="w-1 h-1 rounded-full bg-gray-600" />
+                <div className="w-1 h-1 rounded-full bg-gray-600" />
+             </div>
+             <div className="text-[10px] font-mono opacity-50">INITIALIZED</div>
           </div>
 
-          {/* Decorative Corner Brackets */}
-          <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity">
-            <path d="M 10 0 L 0 0 L 0 10" fill="none" stroke={track.color} strokeWidth="1.5" />
-            <path d="M 0 210 L 0 220 L 10 220" fill="none" stroke={track.color} strokeWidth="1.5" />
-            <path d="M 370 220 L 380 220 L 380 210" fill="none" stroke={track.color} strokeWidth="1.5" />
-            <path d="M 380 10 L 380 0 L 370 0" fill="none" stroke={track.color} strokeWidth="1.5" />
-          </svg>
+          {/* Hover Glow Background */}
+          <motion.div 
+             className="absolute -right-10 -bottom-10 w-32 h-32 rounded-full blur-[60px]"
+             style={{ backgroundColor: track.color }}
+             animate={{ opacity: hovered ? 0.3 : 0 }}
+          />
         </motion.div>
       </TiltCard>
     </div>
   );
 };
 
-// --- COMPONENT: REACTOR CORE ---
-const Core = () => {
+// --- NEW COMPONENT: QUANTUM GYROSCOPE CORE ---
+const QuantumCore = ({ activeTrack }) => {
+  // Determine color based on active track or default to Electric Blue
+  const activeColor = activeTrack ? tracks.find(t => t.id === activeTrack).color : "#00f0ff";
+
   return (
-    <div className="relative w-72 h-72 flex items-center justify-center z-20 scale-75 md:scale-100">
-      {/* Outer Rotating Data Rings */}
+    <div className="relative w-80 h-80 flex items-center justify-center pointer-events-none select-none">
+      
+      {/* 1. Outer Static HUD Ring */}
+      <div className="absolute inset-0 border border-white/10 rounded-full flex items-center justify-center">
+         <div className="absolute top-0 w-1 h-2 bg-white/20" />
+         <div className="absolute bottom-0 w-1 h-2 bg-white/20" />
+         <div className="absolute left-0 w-2 h-1 bg-white/20" />
+         <div className="absolute right-0 w-2 h-1 bg-white/20" />
+      </div>
+
+      {/* 2. Slow Spinning Dashed Ring */}
       <motion.div 
+        className="absolute w-[90%] h-[90%] rounded-full border border-dashed border-white/20"
         animate={{ rotate: 360 }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute w-full h-full rounded-full border border-dashed border-gray-700 opacity-30"
-      />
-      <motion.div 
-        animate={{ rotate: -360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[80%] h-[80%] rounded-full border-t border-b border-violet-500/50"
-      />
-      <motion.div 
-        animate={{ rotate: 360 }}
-        transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-        className="absolute w-[60%] h-[60%] rounded-full border-l-2 border-r-2 border-cyan-400/50"
       />
 
-      {/* Main Reactor Orb */}
+      {/* 3. Middle Counter-Rotating Ring (Colored) */}
       <motion.div 
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative w-32 h-32 rounded-full bg-black/90 backdrop-blur-xl border border-white/20 flex items-center justify-center cursor-pointer group shadow-[0_0_50px_-10px_rgba(124,58,237,0.5)] z-20"
+        className="absolute w-[70%] h-[70%] rounded-full border-2 border-transparent border-t-current border-b-current opacity-60"
+        style={{ color: activeColor }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* 4. Fast Inner Ring (Mechanical) */}
+      <motion.div 
+        className="absolute w-[50%] h-[50%] rounded-full border border-white/30 border-l-transparent border-r-transparent"
+        animate={{ rotate: 360, scale: [1, 1.05, 1] }}
+        transition={{ 
+            rotate: { duration: 5, repeat: Infinity, ease: "linear" },
+            scale: { duration: 2, repeat: Infinity }
+        }}
+      />
+
+      {/* 5. The Singularity (Center Glow) */}
+      <motion.div 
+        className="absolute w-[30%] h-[30%] rounded-full blur-xl z-10"
+        style={{ backgroundColor: activeColor }}
+        animate={{ opacity: [0.4, 0.8, 0.4], scale: [1, 1.2, 1] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      />
+      
+      {/* 6. Solid Core Sphere */}
+      <motion.div 
+        className="relative w-16 h-16 rounded-full bg-black border border-white/20 flex items-center justify-center z-20 shadow-2xl"
+        style={{ boxShadow: `0 0 30px ${activeColor}50` }}
       >
-        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-violet-900/20 to-cyan-900/20 animate-pulse" />
-        
-        {/* Core Icon */}
-        <div className="flex flex-col items-center justify-center gap-1 z-10 text-center">
-          <Cpu className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] animate-pulse" size={32} />
-          <div className="text-[10px] font-mono text-violet-300 tracking-widest mt-1">NEXUS</div>
-          <div className="text-[8px] font-mono text-gray-500">ONLINE</div>
-        </div>
-        
-        {/* Hover Effects */}
-        <div className="absolute inset-[-5px] rounded-full border border-violet-500/30 scale-100 opacity-0 group-hover:scale-110 group-hover:opacity-100 transition-all duration-500" />
+        <Aperture size={32} color={activeColor} className="animate-spin-slow" />
       </motion.div>
 
-      {/* Background Glow */}
-      <div className="absolute inset-0 bg-violet-600/10 blur-3xl rounded-full z-0" />
+      {/* 7. Floating Orbiting Particles */}
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute w-full h-full rounded-full"
+          animate={{ rotate: [0, 360] }}
+          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: "linear", delay: i }}
+        >
+           <div 
+             className="w-2 h-2 rounded-full absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1"
+             style={{ backgroundColor: activeColor, boxShadow: `0 0 10px ${activeColor}` }} 
+           />
+        </motion.div>
+      ))}
+      
+      {/* Label */}
+      <div className="absolute -bottom-12 text-xs font-mono text-gray-500 tracking-[0.3em] text-center">
+        SYSTEM CORE<br/>
+        <span style={{ color: activeColor }} className="font-bold">{activeTrack ? "PROCESSING DATA" : "STANDBY"}</span>
+      </div>
     </div>
   );
 };
 
-// --- MAIN LAYOUT ---
+// --- MAIN LAYOUT COMPONENT ---
 const CircuitTracks = () => {
+  const containerRef = useRef(null);
+  const [activeTrack, setActiveTrack] = useState(null);
+
   return (
-    <div className="relative min-h-screen w-full bg-[#020202] text-white overflow-hidden flex flex-col items-center justify-center selection:bg-cyan-500/30">
+    <div className="relative min-h-screen w-full bg-[#050505] text-white overflow-hidden flex flex-col items-center justify-center font-sans selection:bg-cyan-500/30">
       
-      {/* 1. Cyberpunk Background Grid */}
-      <div className="absolute inset-0 z-0 perspective-500">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(circle_at_center,black,transparent_80%)] opacity-50" />
-        <div className="absolute bottom-0 left-0 right-0 h-[50vh] bg-gradient-to-t from-violet-900/10 to-transparent blur-3xl" />
+      {/* Cinematic Background */}
+      <div className="absolute inset-0 z-0">
+         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-900/40 via-[#050505] to-[#050505]" />
+         <div className="absolute top-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+         <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
 
-      {/* 2. Top HUD Bar */}
-      <div className="absolute top-0 w-full p-6 flex justify-between items-center z-30 pointer-events-none opacity-70">
-         <div className="flex items-center gap-4 text-[10px] font-mono text-gray-400">
-            <Activity size={14} className="text-cyan-400" />
-            <span>SYSTEM_LOAD: 34%</span>
-            <span className="hidden md:inline"> | MEMORY: OPTIMAL</span>
-         </div>
-         <div className="flex gap-1">
-            <div className="w-16 h-1 bg-gray-800 rounded overflow-hidden">
-               <motion.div className="h-full bg-cyan-400" animate={{ width: ["10%", "60%", "30%"] }} transition={{ duration: 2, repeat: Infinity }} />
-            </div>
-            <div className="w-2 h-1 bg-red-500" />
-         </div>
-      </div>
+      {/* Header HUD */}
+      <nav className="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center pointer-events-none">
+        <div className="flex items-center gap-3">
+          <Command size={20} className="text-white/50" />
+          <div className="text-sm font-mono tracking-widest text-white/50">NEXUS_PROTOCOL_V2</div>
+        </div>
+        <div className="flex gap-2">
+           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+           <div className="text-xs font-mono text-green-500">SYSTEM STABLE</div>
+        </div>
+      </nav>
 
-      {/* 3. Main Interface Grid */}
-      <div className="relative z-10 w-full max-w-7xl px-4 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center justify-items-center py-20 lg:py-0">
+      {/* Main Content Grid */}
+      <div ref={containerRef} className="relative z-10 w-full max-w-7xl p-6 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-y-12 items-center min-h-[85vh]">
         
+        {/* Background Circuitry */}
+        <ConnectedCircuitLines tracks={tracks} containerRef={containerRef} activeTrack={activeTrack} />
+
         {/* Left Wing */}
-        <div className="flex flex-col gap-12 lg:gap-32 w-full items-center lg:items-end order-2 lg:order-1">
-          <TechCard track={tracks[0]} index={0} />
-          <TechCard track={tracks[2]} index={2} />
+        <div className="flex flex-col gap-12 lg:gap-32 items-center lg:items-end order-2 lg:order-1">
+          <TechCard track={tracks[0]} index={0} onHover={setActiveTrack} />
+          <TechCard track={tracks[2]} index={2} onHover={setActiveTrack} />
         </div>
 
-        {/* Center Reactor */}
-        <div className="relative w-full h-[400px] lg:h-[600px] flex items-center justify-center order-1 lg:order-2">
-           {/* SVG Lines Container - Positioned to bridge columns */}
-           <div className="absolute inset-0 hidden lg:block pointer-events-none -z-10">
-              <div className="absolute top-1/2 left-0 w-1/2 h-1/2 -translate-y-[80%] -translate-x-[20%]">
-                 <CircuitLine position="top-left" color={tracks[0].color} />
-              </div>
-              <div className="absolute top-1/2 right-0 w-1/2 h-1/2 -translate-y-[80%] translate-x-[20%]">
-                 <CircuitLine position="top-right" color={tracks[1].color} />
-              </div>
-              <div className="absolute bottom-1/2 left-0 w-1/2 h-1/2 translate-y-[80%] -translate-x-[20%]">
-                 <CircuitLine position="bottom-left" color={tracks[2].color} />
-              </div>
-              <div className="absolute bottom-1/2 right-0 w-1/2 h-1/2 translate-y-[80%] translate-x-[20%]">
-                 <CircuitLine position="bottom-right" color={tracks[3].color} />
-              </div>
-           </div>
-           
-           <Core />
+        {/* CENTER REACTOR CORE */}
+        <div className="flex items-center justify-center order-1 lg:order-2 py-12 lg:py-0">
+          <QuantumCore activeTrack={activeTrack} />
         </div>
 
         {/* Right Wing */}
-        <div className="flex flex-col gap-12 lg:gap-32 w-full items-center lg:items-start order-3 lg:order-3">
-          <TechCard track={tracks[1]} index={1} />
-          <TechCard track={tracks[3]} index={3} />
+        <div className="flex flex-col gap-12 lg:gap-32 items-center lg:items-start order-3 lg:order-3">
+          <TechCard track={tracks[1]} index={1} onHover={setActiveTrack} />
+          <TechCard track={tracks[3]} index={3} onHover={setActiveTrack} />
         </div>
 
       </div>
-
-      {/* 4. Bottom HUD Footer */}
-      <div className="absolute bottom-6 w-full flex flex-col items-center gap-2 z-30 pointer-events-none opacity-60">
-        <div className="text-[10px] text-gray-500 font-mono tracking-[0.5em] uppercase">
-          Secure Connection Established
-        </div>
-        <div className="flex gap-8 text-[10px] text-gray-600 font-mono">
-          <div className="flex items-center gap-2">
-            <Lock size={12} /> ENCRYPTED
-          </div>
-          <div className="flex items-center gap-2">
-            <Database size={12} /> LATENCY: 12ms
-          </div>
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={12} /> PROTOCOL: V.9.0
-          </div>
-        </div>
-      </div>
-
     </div>
   );
 };
