@@ -351,17 +351,7 @@ const CircuitTracks = () => {
          <div className="absolute bottom-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
 
-      {/* Header HUD */}
-      <nav className="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center pointer-events-none">
-        <div className="flex items-center gap-3">
-          <Command size={20} className="text-white/50" />
-          <div className="text-sm font-mono tracking-widest text-white/50">NEXUS_PROTOCOL_V2</div>
-        </div>
-        <div className="flex gap-2">
-           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-           <div className="text-xs font-mono text-green-500">SYSTEM STABLE</div>
-        </div>
-      </nav>
+      
 
       {/* Main Content Grid */}
       <div ref={containerRef} className="relative z-10 w-full max-w-7xl p-6 lg:p-12 grid grid-cols-1 lg:grid-cols-3 gap-y-12 items-center min-h-[85vh]">
