@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: "Hackathon Structure?",
-    answer: "Round 1: PPT Submission. Round 2: Prototype Submission. Round 3: Offline 8-hr Finale at CIT.",
+    answer: "Round 1: PPT Submission. Round 2: Prototype Submission. Round 3: Offline 6-hr Finale at CIT.",
   },
   {
     question: "PPT Requirements?",
