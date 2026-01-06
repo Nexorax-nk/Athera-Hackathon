@@ -41,7 +41,7 @@ const Hero = () => {
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
   useEffect(() => {
-    const targetDate = new Date("2026-01-10T23:59:59").getTime();
+    const targetDate = new Date("2026-01-17T23:59:59").getTime();
 
     const updateCountdown = () => {
       const now = Date.now();
@@ -139,7 +139,7 @@ const Hero = () => {
 
           <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/40 backdrop-blur-sm">
             <Users className="w-4 h-4 text-neon-cyan" />
-            <span className="font-mono text-xs sm:text-sm">3–5 MEMBERS</span>
+            <span className="font-mono text-xs sm:text-sm">2–4 MEMBERS</span>
           </div>
 
           <div className="px-5 py-2 border border-accent/30 rounded-full bg-background/40 backdrop-blur-sm">

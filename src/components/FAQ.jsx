@@ -17,11 +17,11 @@ import {
 const faqs = [
   {
     question: "Who can participate?",
-    answer: "Open to all UG and PG students from any college. Teams of 3-5 members. Zero registration fee.",
+    answer: "Open to all UG and PG students from any college. Teams of 2-4 members. Zero registration fee.",
   },
   {
     question: "What are the domains?",
-    answer: "FinTech, EduTech, HealthTech, Sustainable development goals.",
+    answer: "FinTech, EduTech, HealthTech, Environment and Sustainablity.",
   },
   {
     question: "Hackathon Structure?",

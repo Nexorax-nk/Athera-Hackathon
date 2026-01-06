@@ -94,7 +94,7 @@ const Footer = () => {
             <div className="p-4 border border-neon-cyan/30 rounded-lg bg-card/30">
               <p className="font-mono text-xs text-muted-foreground mb-1">Organized by</p>
               <p className="font-orbitron font-semibold text-sm text-primary">
-                HACKWITHMAGNUS Team
+                ATHERA Team
               </p>
               <p className="font-rajdhani text-xs text-muted-foreground">
                 Chennai Institute of Technology

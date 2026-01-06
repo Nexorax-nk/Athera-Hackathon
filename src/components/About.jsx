@@ -161,7 +161,7 @@ const About = () => {
           />
           <StatItem
             icon={Users}
-            value="3–5 Members"
+            value="2–4 Members"
             label="Team Size"
             color="neon-cyan"
             delay={0.3}

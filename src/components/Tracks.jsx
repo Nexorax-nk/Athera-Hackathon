@@ -34,7 +34,7 @@ const tracks = [
   {
     id: "green",
     icon: Leaf,
-    title: "SUSTAINABILITY",
+    title: "ENVIRONMENT AND SUSTAINABILITY",
     subtitle: "ECO-GRIDS",
     desc: "Smart energy harvesting & terraforming logic.",
     color: "#00ff9d", // Green
