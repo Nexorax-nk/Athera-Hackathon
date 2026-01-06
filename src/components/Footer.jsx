@@ -5,9 +5,8 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Instagram, href: "https://www.instagram.com/athera_cit/", label: "Instagram" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/athera_cit", label: "LinkedIn" },
     { icon: Mail, href: "mailto:athera@citchennai.net", label: "Email" },
   ];
 
@@ -46,7 +45,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="w-4 h-4 text-accent" />
-                <span className="font-mono text-sm">+91 XXXXX XXXXX</span>
+                <span className="font-mono text-sm">9361243990 | 6381362898</span>
               </div>
             </div>
           </div>
@@ -94,7 +93,7 @@ const Footer = () => {
             <div className="p-4 border border-neon-cyan/30 rounded-lg bg-card/30">
               <p className="font-mono text-xs text-muted-foreground mb-1">Organized by</p>
               <p className="font-orbitron font-semibold text-sm text-primary">
-                ATHERA Team
+                ATHERA CLUB
               </p>
               <p className="font-rajdhani text-xs text-muted-foreground">
                 Chennai Institute of Technology
