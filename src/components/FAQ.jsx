@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: "What are the domains?",
-    answer: "Web3, FinTech, EduTech, HealthTech, GreenTech, and Open Innovation.",
+    answer: "FinTech, EduTech, HealthTech, Sustainable development goals.",
   },
   {
     question: "Hackathon Structure?",
