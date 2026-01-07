@@ -52,7 +52,7 @@ const evaluationCriteria = [
 const rules = [
   "Original work only. Plagiarism leads to disqualification.",
   "Teams must strictly adhere to the provided deadlines.",
-  "Teams must consist of 3 to 5 members.",
+  "Teams must consist of 2 to 4 members.",
   "Professional and respectful conduct is mandatory.",
   "Judges' decisions are final and binding.",
 ];
