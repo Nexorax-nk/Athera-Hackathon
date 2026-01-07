@@ -6,7 +6,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: Instagram, href: "https://www.instagram.com/athera_cit/", label: "Instagram" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/athera_cit", label: "LinkedIn" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/athera-cit-21a04b39b/", label: "LinkedIn" },
     { icon: Mail, href: "mailto:athera@citchennai.net", label: "Email" },
   ];
 
