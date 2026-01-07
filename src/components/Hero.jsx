@@ -30,6 +30,7 @@ const Hero = () => {
     minutes: 0,
     seconds: 0,
   });
+  const [isRegistrationClosed, setIsRegistrationClosed] = useState(false);
 
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -49,8 +50,11 @@ const Hero = () => {
 
       if (distance <= 0) {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setIsRegistrationClosed(true); // Mark as closed
         return;
       }
+
+      setIsRegistrationClosed(false);
 
       setTimeLeft({
         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -62,6 +66,7 @@ const Hero = () => {
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -106,7 +111,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* 🔥 BIGGER LOGO — NO QUALITY LOSS */}
+        {/* Logo */}
         <motion.img
           src={heroLogo}
           alt="HackWithMagnus 2026"
@@ -149,24 +154,47 @@ const Hero = () => {
           </div>
         </div>
 
+        {/* Countdown or Closed Message */}
         <p className="mt-10 mb-4 font-mono text-sm tracking-widest text-neon-magenta uppercase">
-          Registration Closes In
+          {isRegistrationClosed ? "" : "Registration Closes In"}
         </p>
 
-        <div className="flex justify-center gap-4 md:gap-8">
-          <CountdownUnit value={timeLeft.days} label="Days" />
-          <CountdownUnit value={timeLeft.hours} label="Hours" />
-          <CountdownUnit value={timeLeft.minutes} label="Minutes" />
-          <CountdownUnit value={timeLeft.seconds} label="Seconds" />
-        </div>
+        {isRegistrationClosed ? (
+          <div className="py-8">
+            <p className="font-orbitron text-3xl md:text-5xl font-bold text-red-500 drop-shadow-lg">
+              REGISTRATION CLOSED
+            </p>
+            <p className="mt-4 text-muted-foreground text-sm md:text-base">
+              Thank you for your interest! Registrations are now closed.
+            </p>
+          </div>
+        ) : (
+          <div className="flex justify-center gap-4 md:gap-8">
+            <CountdownUnit value={timeLeft.days} label="Days" />
+            <CountdownUnit value={timeLeft.hours} label="Hours" />
+            <CountdownUnit value={timeLeft.minutes} label="Minutes" />
+            <CountdownUnit value={timeLeft.seconds} label="Seconds" />
+          </div>
+        )}
 
+        {/* Buttons */}
         <div className="mt-10 flex gap-4 justify-center flex-wrap">
-          <a
-            href="#register"
-            className="px-8 py-4 font-orbitron font-bold bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:scale-105 transition"
-          >
-            REGISTER NOW
-          </a>
+          {isRegistrationClosed ? (
+            <button
+              disabled
+              className="px-8 py-4 font-orbitron font-bold bg-gray-600 text-gray-400 rounded cursor-not-allowed"
+            >
+              REGISTRATION CLOSED
+            </button>
+          ) : (
+            <a
+              href="#register"
+              className="px-8 py-4 font-orbitron font-bold bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:scale-105 transition"
+            >
+              REGISTER NOW
+            </a>
+          )}
+
           <a
             href="#schedule"
             className="px-8 py-4 font-orbitron font-bold border-2 border-neon-magenta text-neon-magenta rounded hover:bg-neon-magenta/10 transition"
