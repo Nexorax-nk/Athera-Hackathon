@@ -342,7 +342,10 @@ const CircuitTracks = () => {
   const [activeTrack, setActiveTrack] = useState(null);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#050505] text-white overflow-hidden flex flex-col items-center justify-center font-sans selection:bg-cyan-500/30">
+<div
+  id="tracks"
+  className="relative min-h-screen w-full bg-[#050505] text-white overflow-hidden flex flex-col items-center justify-center font-sans"
+>
       
       {/* Cinematic Background */}
       <div className="absolute inset-0 z-0">

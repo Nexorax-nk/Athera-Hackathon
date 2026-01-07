@@ -8,6 +8,9 @@
   font-family: "Athera";
   src: url("/fonts/Athera.ttf") format("truetype");
 }
+html {
+  scroll-behavior: smooth;
+}
 
 @layer base {
   :root {

@@ -31,7 +31,7 @@ const rounds = [
     title: "GRAND FINALE",
     subtitle: "Offline Hackathon",
     date: "Feb 2, 2026",
-    description: "The final showdown at Chennai Institute of Technology. 8 hours to refine, deploy, and pitch to the jury.",
+    description: "The final showdown at Chennai Institute of Technology. 6 hours to refine, deploy, and pitch to the jury.",
     icon: Trophy,
     color: "yellow", 
   },

@@ -1,16 +1,30 @@
-import { Instagram, Mail, MapPin, Phone, Linkedin, Twitter } from "lucide-react";
+import { Instagram, Mail, MapPin, Phone, Linkedin } from "lucide-react";
 import GlitchText from "./GlitchText";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Instagram, href: "https://www.instagram.com/athera_cit/", label: "Instagram" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/athera-cit-21a04b39b/", label: "LinkedIn" },
-    { icon: Mail, href: "mailto:athera@citchennai.net", label: "Email" },
+    {
+      icon: Instagram,
+      href: "https://www.instagram.com/athera_cit/",
+      label: "Instagram",
+    },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/athera-cit-21a04b39b/",
+      label: "LinkedIn",
+    },
+    {
+      icon: Mail,
+      href: "mailto:athera@citchennai.net",
+      label: "Email",
+    },
   ];
 
+  // ✅ UPDATED QUICK LINKS (MATCH HEADER)
   const quickLinks = [
+    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
     { name: "Domains", href: "#tracks" },
     { name: "Schedule", href: "#schedule" },
@@ -23,38 +37,49 @@ const Footer = () => {
     <footer className="relative border-t border-border/50 bg-card/30">
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-4 gap-12">
-          {/* Brand */}
+
+          {/* BRAND */}
           <div className="md:col-span-2">
             <a href="#home" className="inline-block mb-4">
               <GlitchText className="font-orbitron font-bold text-2xl text-primary text-glow-cyan">
                 HACKWITHMAGNUS
               </GlitchText>
             </a>
+
             <p className="font-rajdhani text-muted-foreground mb-6 max-w-sm">
-              A hackathon designed to encourage students to ideate, build, and present 
-              impactful technological solutions addressing real-world problems.
+              A hackathon designed to encourage students to ideate, build, and
+              present impactful technological solutions addressing real-world
+              problems.
             </p>
+
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="w-4 h-4 text-neon-magenta" />
-                <span className="font-mono text-sm">Chennai Institute of Technology</span>
+                <span className="font-mono text-sm">
+                  Chennai Institute of Technology
+                </span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Mail className="w-4 h-4 text-neon-cyan" />
-                <span className="font-mono text-sm">athera@citchennai.net</span>
+                <span className="font-mono text-sm">
+                  athera@citchennai.net
+                </span>
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Phone className="w-4 h-4 text-accent" />
-                <span className="font-mono text-sm">9361243990 | 6381362898</span>
+                <span className="font-mono text-sm">
+                  9361243990 | 6381362898
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* QUICK LINKS */}
           <div>
             <h4 className="font-orbitron font-semibold text-foreground mb-4">
               Quick Links
             </h4>
+
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -62,7 +87,7 @@ const Footer = () => {
                     href={link.href}
                     className="font-rajdhani text-muted-foreground hover:text-primary transition-colors"
                   >
-                    <GlitchText triggerOnHover={true} className="hover:text-primary">
+                    <GlitchText triggerOnHover className="hover:text-primary">
                       {link.name}
                     </GlitchText>
                   </a>
@@ -71,11 +96,12 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social & Contact */}
+          {/* CONNECT */}
           <div>
             <h4 className="font-orbitron font-semibold text-foreground mb-4">
               Connect With Us
             </h4>
+
             <div className="flex gap-3 mb-6">
               {socialLinks.map((social) => (
                 <a
@@ -90,8 +116,11 @@ const Footer = () => {
                 </a>
               ))}
             </div>
+
             <div className="p-4 border border-neon-cyan/30 rounded-lg bg-card/30">
-              <p className="font-mono text-xs text-muted-foreground mb-1">Organized by</p>
+              <p className="font-mono text-xs text-muted-foreground mb-1">
+                Organized by
+              </p>
               <p className="font-orbitron font-semibold text-sm text-primary">
                 ATHERA CLUB
               </p>
@@ -102,26 +131,27 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* BOTTOM BAR */}
         <div className="mt-12 pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="font-mono text-xs text-muted-foreground">
             © {currentYear} HACKWITHMAGNUS. All rights reserved.
           </p>
+
           <div className="flex gap-6">
-            <a href="#" className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
+            <a className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
+            <a className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
               Terms of Service
             </a>
-            <a href="#" className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
+            <a className="font-mono text-xs text-muted-foreground hover:text-primary transition-colors">
               Code of Conduct
             </a>
           </div>
         </div>
       </div>
 
-      {/* Decorative line */}
+      {/* DECORATIVE LINE */}
       <div className="h-1 bg-gradient-to-r from-neon-cyan via-neon-magenta to-accent" />
     </footer>
   );
