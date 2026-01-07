@@ -39,11 +39,13 @@ export default function Header() {
           {/* LOGO */}
           <a href="#home" className="group">
             <span
-              className="font-cyber font-bold text-lg md:text-2xl tracking-[0.18em] text-white"
               style={{
+                fontFamily: "Athera",
+                letterSpacing: "0.18em",
                 textShadow:
                   "0 0 14px rgba(0,240,255,0.6), 0 0 30px rgba(0,240,255,0.35)",
               }}
+              className="font-bold text-lg md:text-2xl text-white"
             >
               <GlitchText>ATHERA X MAGNUS</GlitchText>
             </span>
@@ -125,7 +127,13 @@ export default function Header() {
 
               <a
                 href="#register"
-                className="mt-6 px-10 py-4 bg-neon-cyan text-black font-cyber tracking-widest rounded-lg shadow-[0_0_25px_rgba(0,240,255,0.45)]"
+                className="
+                  mt-6 px-10 py-4
+                  bg-neon-cyan text-black
+                  font-cyber tracking-widest
+                  rounded-lg
+                  shadow-[0_0_25px_rgba(0,240,255,0.45)]
+                "
               >
                 REGISTER NOW
               </a>

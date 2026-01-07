@@ -4,6 +4,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: "Athera";
+  src: url("/fonts/Athera.ttf") format("truetype");
+}
 
 @layer base {
   :root {
