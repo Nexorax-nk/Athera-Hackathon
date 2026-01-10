@@ -2,6 +2,9 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ArrowRight, Zap, Calendar, Users, MapPin } from "lucide-react";
 
+const REGISTER_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSd4ZBDeVQfARfI5HHFXgzoS3aJjcV5EE7cYLwh63hKu926uFQ/viewform?usp=send_form";
+
 const Register = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
@@ -10,7 +13,7 @@ const Register = () => {
       {/* Background effects */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-neon-cyan/10 to-background" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon-magenta/10 rounded-full blur-[200px]" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           ref={ref}
@@ -38,7 +41,7 @@ const Register = () => {
           </h2>
 
           <p className="font-rajdhani text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join ATHERA Innovation Sprint 2026 and showcase your problem-solving skills 
+            Join ATHERA Innovation Sprint 2026 and showcase your problem-solving skills
             across multiple domains. Build solutions that make an impact!
           </p>
 
@@ -51,15 +54,21 @@ const Register = () => {
           >
             <div className="flex items-center gap-2 px-4 py-2 border border-neon-cyan/30 rounded-full bg-background/30">
               <Calendar className="w-4 h-4 text-neon-cyan" />
-              <span className="font-mono text-sm text-foreground/80">February 2, 2026</span>
+              <span className="font-mono text-sm text-foreground/80">
+                February 2, 2026
+              </span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-neon-magenta/30 rounded-full bg-background/30">
               <MapPin className="w-4 h-4 text-neon-magenta" />
-              <span className="font-mono text-sm text-foreground/80">Chennai Institute of Technology</span>
+              <span className="font-mono text-sm text-foreground/80">
+                Chennai Institute of Technology
+              </span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 border border-accent/30 rounded-full bg-background/30">
               <Users className="w-4 h-4 text-accent" />
-              <span className="font-mono text-sm text-foreground/80">Teams of 2-4</span>
+              <span className="font-mono text-sm text-foreground/80">
+                Teams of 2–4
+              </span>
             </div>
           </motion.div>
 
@@ -69,8 +78,11 @@ const Register = () => {
             transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
+            {/* REGISTER BUTTON */}
             <motion.a
-              href="#"
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="group px-10 py-5 font-orbitron font-bold text-xl bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded animate-glow-pulse hover:shadow-[0_0_60px_hsl(var(--neon-cyan)/0.5)] transition-all duration-300"

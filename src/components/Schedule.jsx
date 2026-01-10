@@ -10,7 +10,7 @@ const rounds = [
     round: "ROUND 1",
     title: "IDEATION PHASE",
     subtitle: "PPT Submission",
-    date: "Jan 08, 2026 - Jan 17, 2026",
+    date: "Jan 10, 2026 - Jan 17, 2026",
     description: "Submit a detailed presentation outlining your problem statement, solution architecture, and tech stack.",
     icon: FileText,
     color: "cyan", 
