@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import GlitchText from "./GlitchText";
 
+const REGISTER_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSd4ZBDeVQfARfI5HHFXgzoS3aJjcV5EE7cYLwh63hKu926uFQ/viewform?usp=send_form";
+
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "About", href: "#about" },
@@ -69,8 +72,11 @@ export default function Header() {
 
           {/* RIGHT */}
           <div className="flex items-center gap-4">
+            {/* DESKTOP REGISTER */}
             <a
-              href="#register"
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="
                 hidden md:flex items-center px-6 py-2
                 font-cyber text-sm tracking-widest font-semibold
@@ -125,8 +131,11 @@ export default function Header() {
                 </motion.a>
               ))}
 
+              {/* MOBILE REGISTER */}
               <a
-                href="#register"
+                href={REGISTER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
                   mt-6 px-10 py-4
                   bg-neon-cyan text-black

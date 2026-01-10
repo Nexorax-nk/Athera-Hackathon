@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Calendar, MapPin, Clock, Users } from "lucide-react";
 import heroVideo from "@/assets/herobg1.mp4";
 import heroLogo from "@/assets/logo.png";
+
+const REGISTER_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSd4ZBDeVQfARfI5HHFXgzoS3aJjcV5EE7cYLwh63hKu926uFQ/viewform?usp=send_form";
 
 /* ======================= COUNTDOWN UNIT ======================= */
 const CountdownUnit = ({ value, label }) => (
@@ -49,13 +48,12 @@ const Hero = () => {
       const distance = targetDate - now;
 
       if (distance <= 0) {
+        setIsRegistrationClosed(true);
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-        setIsRegistrationClosed(true); // Mark as closed
         return;
       }
 
       setIsRegistrationClosed(false);
-
       setTimeLeft({
         days: Math.floor(distance / (1000 * 60 * 60 * 24)),
         hours: Math.floor((distance / (1000 * 60 * 60)) % 24),
@@ -66,7 +64,6 @@ const Hero = () => {
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
@@ -119,13 +116,9 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9 }}
           className="
-            mx-auto
-            max-w-none
-            w-[300px]
-            sm:w-[420px]
-            md:w-[600px]
-            lg:w-[720px]
-            xl:w-[820px]
+            mx-auto max-w-none
+            w-[300px] sm:w-[420px] md:w-[600px]
+            lg:w-[720px] xl:w-[820px]
             drop-shadow-[0_0_40px_rgba(0,255,255,0.4)]
             mb-6
           "
@@ -154,18 +147,15 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Countdown or Closed Message */}
+        {/* Countdown */}
         <p className="mt-10 mb-4 font-mono text-sm tracking-widest text-neon-magenta uppercase">
           {isRegistrationClosed ? "" : "Registration Closes In"}
         </p>
 
         {isRegistrationClosed ? (
           <div className="py-8">
-            <p className="font-orbitron text-3xl md:text-5xl font-bold text-red-500 drop-shadow-lg">
+            <p className="font-orbitron text-3xl md:text-5xl font-bold text-red-500">
               REGISTRATION CLOSED
-            </p>
-            <p className="mt-4 text-muted-foreground text-sm md:text-base">
-              Thank you for your interest! Registrations are now closed.
             </p>
           </div>
         ) : (
@@ -188,7 +178,9 @@ const Hero = () => {
             </button>
           ) : (
             <a
-              href="#register"
+              href={REGISTER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 font-orbitron font-bold bg-gradient-to-r from-neon-cyan to-neon-magenta text-background rounded hover:scale-105 transition"
             >
               REGISTER NOW
