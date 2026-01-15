@@ -17,7 +17,7 @@ import {
 const faqs = [
   {
     question: "Who can participate?",
-    answer: "Open to all UG and PG students from any college. Teams of 2-4 members. Zero registration fee.",
+    answer: "Participation is strictly open to UG and PG students from all colleges, excluding CIT students.",
   },
   {
     question: "What are the domains?",
