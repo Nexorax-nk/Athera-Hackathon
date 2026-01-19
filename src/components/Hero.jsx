@@ -41,7 +41,7 @@ const Hero = () => {
   const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
   useEffect(() => {
-    const targetDate = new Date("2026-01-17T23:59:59").getTime();
+    const targetDate = new Date("2026-01-21T23:59:59").getTime();
 
     const updateCountdown = () => {
       const now = Date.now();
